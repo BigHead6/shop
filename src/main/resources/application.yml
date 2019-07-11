@@ -1,0 +1,46 @@
+server:
+  port: 8765
+
+mybatis:
+  typeAliasesPackage: com.nyist.entity
+  mapperLocations: classpath:mapper/*.xml
+
+#分页配置
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/shop?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    username: root
+    password: 123456
+
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+    encoding: UTF-8
+    mode: HTML5
+
+  mvc:
+    view:
+      prefix: classpath:/templates/
+      view-name: '*'
+      suffix: .jsp
+      static-path-pattern: /**
+
+# 邮箱发送验证码
+  mail:
+    default-encoding: utf-8
+    host: smtp.qq.com
+    #改为自己邮箱
+    username: 821665225@qq.com
+    password: dgpygyjipurpbdfb
+
+
+  logging:
+    file: my.log

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nyist.dao.KindMapper">
+  <resultMap id="BaseResultMap" type="com.nyist.entity.Kind">
+    <id column="kind_no" jdbcType="INTEGER" property="kindNo" />
+    <result column="kind_name" jdbcType="CHAR" property="kindName" />
+    <result column="flag" jdbcType="VARCHAR" property="flag" />
+    <result column="extend2" jdbcType="VARCHAR" property="extend2" />
+    <result column="extend3" jdbcType="VARCHAR" property="extend3" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    kind_no, kind_name, flag, extend2, extend3
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from kind
+    where kind_no = #{kindNo,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from kind
+    where kind_no = #{kindNo,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.nyist.entity.Kind">
+    insert into kind (kind_no, kind_name, flag, 
+      extend2, extend3)
+    values (#{kindNo,jdbcType=INTEGER}, #{kindName,jdbcType=CHAR}, #{flag,jdbcType=VARCHAR}, 
+      #{extend2,jdbcType=VARCHAR}, #{extend3,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nyist.entity.Kind">
+    insert into kind
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="kindNo != null">
+        kind_no,
+      </if>
+      <if test="kindName != null">
+        kind_name,
+      </if>
+      <if test="flag != null">
+        flag,
+      </if>
+      <if test="extend2 != null">
+        extend2,
+      </if>
+      <if test="extend3 != null">
+        extend3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="kindNo != null">
+        #{kindNo,jdbcType=INTEGER},
+      </if>
+      <if test="kindName != null">
+        #{kindName,jdbcType=CHAR},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="extend2 != null">
+        #{extend2,jdbcType=VARCHAR},
+      </if>
+      <if test="extend3 != null">
+        #{extend3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nyist.entity.Kind">
+    update kind
+    <set>
+      <if test="kindName != null">
+        kind_name = #{kindName,jdbcType=CHAR},
+      </if>
+      <if test="flag != null">
+        flag = #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="extend2 != null">
+        extend2 = #{extend2,jdbcType=VARCHAR},
+      </if>
+      <if test="extend3 != null">
+        extend3 = #{extend3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where kind_no = #{kindNo,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nyist.entity.Kind">
+    update kind
+    set kind_name = #{kindName,jdbcType=CHAR},
+      flag = #{flag,jdbcType=VARCHAR},
+      extend2 = #{extend2,jdbcType=VARCHAR},
+      extend3 = #{extend3,jdbcType=VARCHAR}
+    where kind_no = #{kindNo,jdbcType=INTEGER}
+  </update>
+
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from kind
+    where flag=1
+  </select>
+
+  <select id="selectByName" parameterType="string" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from kind
+    where kind_name = #{kindName,jdbcType=CHAR}
+  </select>
+
+</mapper>

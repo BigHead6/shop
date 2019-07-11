@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nyist.dao.SalesMapper">
+  <resultMap id="BaseResultMap" type="com.nyist.entity.Sales">
+    <id column="order_no" jdbcType="INTEGER" property="orderNo" />
+    <result column="cust_id" jdbcType="INTEGER" property="custId" />
+    <result column="tot_amt" jdbcType="DECIMAL" property="totAmt" />
+    <result column="order_date" jdbcType="TIMESTAMP" property="orderDate" />
+    <result column="invoice_no" jdbcType="CHAR" property="invoiceNo" />
+    <result column="order_status" jdbcType="CHAR" property="orderStatus" />
+    <result column="deliv_date" jdbcType="TIMESTAMP" property="delivDate" />
+    <result column="flag" jdbcType="VARCHAR" property="flag" />
+    <result column="extend2" jdbcType="VARCHAR" property="extend2" />
+    <result column="extend3" jdbcType="VARCHAR" property="extend3" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    order_no, cust_id, tot_amt, order_date, invoice_no, order_status, deliv_date, flag, 
+    extend2, extend3
+  </sql>
+  <select id="selectByInvoiceNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sales
+    where invoice_no = #{invoiceNo,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sales
+    where order_no = #{orderNo,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.nyist.entity.Sales">
+    insert into sales (order_no, cust_id, tot_amt, 
+      order_date, invoice_no, order_status, 
+      deliv_date, flag, extend2, 
+      extend3)
+    values (#{orderNo,jdbcType=INTEGER}, #{custId,jdbcType=INTEGER}, #{totAmt,jdbcType=DECIMAL}, 
+      #{orderDate,jdbcType=TIMESTAMP}, #{invoiceNo,jdbcType=CHAR}, #{orderStatus,jdbcType=CHAR}, 
+      #{delivDate,jdbcType=TIMESTAMP}, #{flag,jdbcType=VARCHAR}, #{extend2,jdbcType=VARCHAR}, 
+      #{extend3,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nyist.entity.Sales">
+    insert into sales
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="custId != null">
+        cust_id,
+      </if>
+      <if test="totAmt != null">
+        tot_amt,
+      </if>
+      <if test="orderDate != null">
+        order_date,
+      </if>
+      <if test="invoiceNo != null">
+        invoice_no,
+      </if>
+      <if test="orderStatus != null">
+        order_status,
+      </if>
+      <if test="delivDate != null">
+        deliv_date,
+      </if>
+      <if test="flag != null">
+        flag,
+      </if>
+      <if test="extend2 != null">
+        extend2,
+      </if>
+      <if test="extend3 != null">
+        extend3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=INTEGER},
+      </if>
+      <if test="custId != null">
+        #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="totAmt != null">
+        #{totAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="orderDate != null">
+        #{orderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invoiceNo != null">
+        #{invoiceNo,jdbcType=CHAR},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=CHAR},
+      </if>
+      <if test="delivDate != null">
+        #{delivDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="extend2 != null">
+        #{extend2,jdbcType=VARCHAR},
+      </if>
+      <if test="extend3 != null">
+        #{extend3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nyist.entity.Sales">
+    update sales
+    <set>
+      <if test="custId != null">
+        cust_id = #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="totAmt != null">
+        tot_amt = #{totAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="orderDate != null">
+        order_date = #{orderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invoiceNo != null">
+        invoice_no = #{invoiceNo,jdbcType=CHAR},
+      </if>
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=CHAR},
+      </if>
+      <if test="delivDate != null">
+        deliv_date = #{delivDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null">
+        flag = #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="extend2 != null">
+        extend2 = #{extend2,jdbcType=VARCHAR},
+      </if>
+      <if test="extend3 != null">
+        extend3 = #{extend3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where order_no = #{orderNo,jdbcType=INTEGER}
+  </update>
+  <update id="updateByInvoiceNo" parameterType="java.lang.String">
+    update sales
+    set
+      flag = 0
+    where invoice_no = #{invoiceNo,jdbcType=CHAR}
+  </update>
+
+
+  <select id="selectByCustId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sales
+    where cust_id = #{custId,jdbcType=INTEGER}
+    and  order_status = 0 and flag=1
+  </select>
+
+  <select id="selectByCustId1" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sales
+    where cust_id = #{custId,jdbcType=INTEGER}
+    and  order_status = 1 and  flag=1
+  </select>
+
+  <select id="selectByCustId2" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sales
+    where TO_DAYS( deliv_date ) - TO_DAYS( NOW()) &lt;= 0
+    and  order_status = 1 and  flag=1
+  </select>
+
+  <select id="findAll" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sales
+    where cust_id = #{custId,jdbcType=INTEGER}
+    and  flag = 1
+  </select>
+
+  <select id="findToday"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sales
+    where order_date like #{time,jdbcType=VARCHAR}"%"
+    and  flag = 1
+  </select>
+
+  <select id="findWeek" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sales
+    where DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= date(order_date)
+    and  flag = 1
+  </select>
+
+  <select id="Lastweek" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sales
+    where YEARWEEK(date_format(order_date,'%Y-%m-%d')) = YEARWEEK(now())-1
+    and  flag = 1
+  </select>
+
+  <select id="Lastweek1" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sales
+    where YEARWEEK(date_format(order_date,'%Y-%m-%d')) = YEARWEEK(now())-2
+    and  flag = 1
+  </select>
+
+
+  <select id="selectSUMBytime" resultType="java.math.BigDecimal">
+    select
+     SUM(tot_amt)
+    from sales
+    where order_date like #{time,jdbcType=VARCHAR}"%"
+    and  flag = 1
+
+  </select>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sales
+    where  flag = 1
+  </select>
+
+
+</mapper>

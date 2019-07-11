@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" id="zwytest">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>商品页面</title>
+
+    <link th:href="@{/assets/css/admin.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/assets/css/amazeui.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/basic/css/demo.css}" rel="stylesheet" type="text/css"/>
+    <link type="text/css" th:href="@{/css/optstyle.css}" rel="stylesheet"/>
+    <link type="text/css" th:href="@{/css/style.css}" rel="stylesheet"/>
+
+    <script type="text/javascript" th:src="@{/basic/js/jquery-1.7.min.js}"></script>
+    <script type="text/javascript" th:src="@{/basic/js/quick_links.js}"></script>
+
+    <script type="text/javascript" th:src="@{/assets/js/amazeui.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.imagezoom.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.flexslider.js}"></script>
+    <script type="text/javascript" th:src="@{/js/list.js}"></script>
+
+    <style>
+        select {
+            height: 30px;
+        }
+    </style>
+</head>
+
+<body>
+<!--顶部导航条 -->
+<div th:include="public/pagehead::common"></div>
+<!--悬浮搜索框-->
+<div th:include="public/pagehead::search"></div>
+
+<div class="clear"></div>
+<b class="line"></b>
+<div class="listMain">
+
+    <!--分类-->
+    <div class="nav-table">
+        <div class="long-title"><span class="all-goods">全部分类</span></div>
+        <div class="nav-cont">
+            <ul>
+                <li class="index"><a href="#">首页</a></li>
+                <li class="qc"><a href="#">闪购</a></li>
+                <li class="qc"><a href="#">限时抢</a></li>
+                <li class="qc"><a href="#">团购</a></li>
+                <li class="qc last"><a href="#">大包装</a></li>
+            </ul>
+        </div>
+    </div>
+    <ol class="am-breadcrumb am-breadcrumb-slash">
+        <li><a href="#">首页</a></li>
+        <li><a href="#">分类</a></li>
+        <li class="am-active">内容</li>
+    </ol>
+
+    <!--放大镜-->
+
+    <div class="item-inform">
+        <div class="clearfixLeft" id="clearcontent">
+
+            <div class="box">
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $(".jqzoom").imagezoom();
+                        $("#thumblist li a").click(function () {
+                            $(this).parents("li").addClass("tb-selected").siblings().removeClass("tb-selected");
+                            $(".jqzoom").attr('th:src', $(this).find("img").attr("mid"));
+                            $(".jqzoom").attr('rel', $(this).find("img").attr("big"));
+                        });
+                    });
+                </script>
+
+                <div class="tb-booth tb-pic tb-s310">
+                    <img th:src="${product.getImage()}" alt="细节展示放大镜特效" rel="${product.getImage()}"
+                    />
+                </div>
+                <ul class="tb-thumb" id="thumblist">
+                    <li class="tb-selected">
+                        <div class="tb-pic tb-s40">
+                            <a href="#"><img th:src="${product.getImage()}" mid="${product.getImage()}"
+                                             big="${product.getImage()}"></a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="tb-pic tb-s40">
+                            <a href="#"><img th:src="${product.getImage()}" mid="${product.getImage()}"
+                                             big="${product.getImage()}"></a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="tb-pic tb-s40">
+                            <a href="#"><img th:src="${product.getImage()}" mid="${product.getImage()}"
+                                             big="${product.getImage()}"></a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="clear"></div>
+        </div>
+
+        <div class="clearfixRight">
+
+            <!--规格属性-->
+            <!--名称-->
+            <div class="tb-detail-hd">
+                <h1 th:text="${product.getProdDesc()}">
+                    良品铺子 手剥松子218g 坚果炒货 巴西松子
+                </h1>
+            </div>
+            <div class="tb-detail-list">
+                <!--价格-->
+                <div class="tb-detail-price" style="padding-top: 20px ;">
+                    <li class="price iteminfo_price">
+                        <dt>促销价</dt>
+                        <dd><em>¥</em><b id="price" class="sys_item_price" style="color: blue important!;"
+                                         th:text="${product.getUnitPrice()}">56.90</b></dd>
+                    </li>
+                    <li class="price iteminfo_mktprice">
+                        <dt>原价</dt>
+                        <dd><em>¥</em><b class="sys_item_mktprice">98.00</b></dd>
+                    </li>
+                    <div class="clear"></div>
+                </div>
+
+
+                <div class="clear"></div>
+                <!--销量-->
+                <ul class="tm-ind-panel">
+                    <li class="tm-ind-item tm-ind-sellCount canClick">
+                        <div class="tm-indcon"><span class="tm-label">月销量</span><span class="tm-count">1015</span></div>
+                    </li>
+                    <li class="tm-ind-item tm-ind-sumCount canClick">
+                        <div class="tm-indcon"><span class="tm-label">累计销量</span><span class="tm-count">6015</span>
+                        </div>
+                    </li>
+                    <li class="tm-ind-item tm-ind-reviewCount canClick tm-line3">
+                        <div class="tm-indcon"><span class="tm-label">累计评价</span><span class="tm-count">640</span></div>
+                    </li>
+                </ul>
+                <div class="clear"></div>
+
+                <!--各种规格-->
+                <dl class="iteminfo_parameter sys_item_specpara">
+                    <dt class="theme-login">
+                        <div class="cart-title">可选规格<span class="am-icon-angle-right"></span></div>
+                    </dt>
+                    <dd>
+                        <!--操作页面-->
+
+                        <div class="theme-popover-mask"></div>
+
+                        <div class="theme-popover">
+                            <div class="theme-span"></div>
+                            <div class="theme-poptit">
+                                <a href="javascript:;" title="关闭" class="close">×</a>
+                            </div>
+                            <div class="theme-popbod dform">
+                                <form class="theme-signin" name="loginform" action="" method="post">
+
+                                    <div class="theme-signin-left">
+
+                                        <div class="theme-options">
+                                            <div class="cart-title">口味</div>
+                                            <ul>
+                                                <li class="sku-line selected">原味<i></i></li>
+                                                <li class="sku-line">奶油<i></i></li>
+                                                <li class="sku-line">炭烧<i></i></li>
+                                                <li class="sku-line">咸香<i></i></li>
+                                            </ul>
+                                        </div>
+                                        <div class="theme-options">
+                                            <div class="cart-title">包装</div>
+                                            <ul>
+                                                <li class="sku-line selected">手袋单人份<i></i></li>
+                                                <li class="sku-line">礼盒双人份<i></i></li>
+                                                <li class="sku-line">全家福礼包<i></i></li>
+                                            </ul>
+                                        </div>
+                                        <div class="theme-options">
+                                            <div class="cart-title number">数量</div>
+                                        </div>
+                                    </div>
+                    <dd>
+                        <input id="min" class="am-btn am-btn-default" name="" type="button" value="-"/>
+                        <input id="text_box" name="" type="number" value="1" style="width:50px;" disabled/>
+                        <input id="add" class="am-btn am-btn-default" name="" type="button" value="+"/>
+                        <span id="Stock" class="tb-hidden">库存<span class="stock" th:text="${product.getSupply()}">1000</span>件</span>
+                    </dd>
+                </dl>
+            </div>
+            <div class="clear"></div>
+
+            <div class="btn-op">
+                <div class="btn am-btn am-btn-warning">确认</div>
+                <div class="btn close am-btn am-btn-warning">取消</div>
+            </div>
+            <div class="pay">
+                <div class="pay-opt">
+                    <a href="home.html"><span class="am-icon-home am-icon-fw">首页</span></a>
+                    <a><span class="am-icon-heart am-icon-fw">收藏</span></a>
+
+                </div>
+                <li>
+                    <div class="clearfix tb-btn tb-btn-buy theme-login">
+                        <a id="LikBuy" title="点此按钮到下一步确认购买信息">立即购买</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="clearfix tb-btn tb-btn-basket theme-login">
+                        <a id="LikBasket" title="加入购物车"><i></i>加入购物车</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="clearfix tb-btn  theme-login" style="margin-left: 20px;">
+                        <a id="collection" title="点此按钮到下一步确认购买信息">收藏</a>
+                    </div>
+                </li>
+
+            </div>
+        </div>
+        <!--   <div class="theme-signin-right">
+               <div class="img-info">
+                   <img th:src="@{/images/songzi.jpg}"/>
+               </div>
+               <div class="text-info">
+                   <span class="J_Price price-now">¥39.00</span>
+                   <span id="Stock" class="tb-hidden">库存<span class="stock">1000</span>件</span>
+               </div>
+           </div>-->
+
+        </form>
+    </div>
+</div>
+
+<div class="clear"></div>
+<!--活动	-->
+
+
+</div>
+
+
+<div>
+
+</div>
+<div class="clear"></div>
+
+</div>
+
+<div class="clear"></div>
+
+
+<!-- introduce-->
+
+<div class="introduce">
+    <div class="browse">
+
+    </div>
+    <div class="introduceMain">
+        <div class="am-tabs" data-am-tabs>
+            <ul class="am-avg-sm-3 am-tabs-nav am-nav am-nav-tabs">
+                <!--放大镜显示-->
+            </ul>
+
+
+        </div>
+
+        <div class="clear"></div>
+        <div class="footer">
+            <div class="footer-hd">
+                <p>
+                    <a href="#">商城首页</a>
+                    <b>|</b>
+                    <a href="#">支付宝</a>
+                    <b>|</b>
+                    <a href="#">物流</a>
+                </p>
+            </div>
+            <div class="footer-bd">
+                <p>
+                    <a href="#">关于我们</a>
+                    <a href="#">合作伙伴</a>
+                    <a href="#">联系我们</a>
+                    <a href="#">网站地图</a>
+                    <em>© 2018-2025 lol.com 版权所有</em>
+                </p>
+            </div>
+        </div>
+        <!--<div th:include="public/pagehead::footer"></div>-->
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+<script th:src="@{/layuiadmin/layui/layui.all.js}"></script>
+<!--搜索页面传参加跳转-->
+<script th:inline="javascript">
+    ;!function () {
+        //无需再执行layui.use()方法加载模块，直接使用即可
+        var form = layui.form
+            , layer = layui.layer;
+        var $ = layui.$
+            , admin = layui.admin
+            , element = layui.element
+            , layer = layui.layer
+            , laydate = layui.laydate
+            , form = layui.form;
+        form.render();
+        laydate.render();
+
+        $("#ai-topsearch").on('click', function () {
+            var name = $("#searchInput").val();
+            location.href = 'search?' + 'txt=' + encodeURI(name);//将值发送到search页面
+        })
+
+        $("#LikBasket").click(function () {
+            var num = $('#text_box').val();
+            var shopId = [[${product.getId()}]];
+
+            layer.confirm('确定加入购物车', function () {
+                var a = {
+                    num: num,
+                    id: shopId,
+                    flag: 0
+                }
+                console.log(JSON.stringify(a))
+                $.ajax({
+                    url: 'shopcartadd',
+                    type: 'post',
+                    async: false,
+                    data: JSON.stringify(a),
+                    contentType: "application/json",
+                    success: function (res) {
+                        console.log(res)
+                        if (res == "ok") {
+                            layer.msg('添加成功', {
+                                icon: 6,
+                            }, function () {
+                                document.location.href = 'shopcartlist'
+                            })
+
+                        }
+                    },
+                    error: function () {
+                        console.log("error")
+                    }
+                })
+            })
+        });
+
+        $("#LikBuy").click(function () {
+            var shopVO = [];
+            var num = $('#text_box').val();
+            var pId = [[${product.getId()}]];
+            var price = $('#price').text() * num;
+            var flag=1;
+            shopVO.push({pId:pId,num:num,price:price,flag:flag})
+            console.log(JSON.stringify(shopVO))
+            layer.confirm('确定立即购买', function () {
+                $.ajax({
+                    type: 'post',
+                    url: 'paylist',
+                    data: JSON.stringify(shopVO),
+                    contentType: "application/json",
+                    /*dataType:"json",*/
+                    async: false,
+                    success: function (res) {
+                        if(res.code ==1){
+                            document.location.href="pay"
+                        }
+                        else if (res.code ==0){
+                            layer.msg(res.msg,{icon:5})
+                        }
+                    },error:function () {
+                        layer.msg(res.msg,{icon:5})
+                    }
+                })
+            })
+        });
+        //收藏
+        $('#collection').on('click',function () {
+            var shopId = [[${product.getId()}]];
+            $.ajax({
+                url: 'addCollect',
+                type: 'post',
+                async: false,
+                data:{pid:shopId},
+                success: function (res) {
+                    console.log(res)
+                    if (res.code == 0) {
+                        layer.msg(res.msg, {
+                            icon: 5,
+                        })
+
+                    }else if(res.code==1){
+                        layer.msg(res.msg, {
+                            icon: 6,
+                        })
+                    }else if(res.code==2){
+                        layer.msg(res.msg, {
+                            icon: 5,
+                        })
+                    }
+                },
+                error: function () {
+                    console.log("error")
+                }
+            })
+        })
+        //控制加入的数量小于库村
+        $('#add').on('click',function () {
+            if ($('#text_box').val()>=[[${product.getSupply()}]] ){
+                layer.msg('数量超过库存');
+                $('#text_box').val([[${product.getSupply()}]]-1)
+            }
+        })
+    }();
+
+</script>
+</body>
+
+</html>

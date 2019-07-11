@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nyist.dao.DiscountMapper">
+  <resultMap id="BaseResultMap" type="com.nyist.entity.Discount">
+    <id column="cust_level" jdbcType="CHAR" property="custLevel" />
+    <result column="discount" jdbcType="DECIMAL" property="discount" />
+    <result column="sco_re" jdbcType="CHAR" property="scoRe" />
+    <result column="extend1" jdbcType="VARCHAR" property="extend1" />
+    <result column="extend2" jdbcType="VARCHAR" property="extend2" />
+    <result column="extend3" jdbcType="VARCHAR" property="extend3" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    cust_level, discount, sco_re, extend1, extend2, extend3
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from discount
+    where cust_level = #{custLevel,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from discount
+    where cust_level = #{custLevel,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.nyist.entity.Discount">
+    insert into discount (cust_level, discount, sco_re, 
+      extend1, extend2, extend3
+      )
+    values (#{custLevel,jdbcType=CHAR}, #{discount,jdbcType=DECIMAL}, #{scoRe,jdbcType=CHAR}, 
+      #{extend1,jdbcType=VARCHAR}, #{extend2,jdbcType=VARCHAR}, #{extend3,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.nyist.entity.Discount">
+    insert into discount
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="custLevel != null">
+        cust_level,
+      </if>
+      <if test="discount != null">
+        discount,
+      </if>
+      <if test="scoRe != null">
+        sco_re,
+      </if>
+      <if test="extend1 != null">
+        extend1,
+      </if>
+      <if test="extend2 != null">
+        extend2,
+      </if>
+      <if test="extend3 != null">
+        extend3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="custLevel != null">
+        #{custLevel,jdbcType=CHAR},
+      </if>
+      <if test="discount != null">
+        #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="scoRe != null">
+        #{scoRe,jdbcType=CHAR},
+      </if>
+      <if test="extend1 != null">
+        #{extend1,jdbcType=VARCHAR},
+      </if>
+      <if test="extend2 != null">
+        #{extend2,jdbcType=VARCHAR},
+      </if>
+      <if test="extend3 != null">
+        #{extend3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nyist.entity.Discount">
+    update discount
+    <set>
+      <if test="discount != null">
+        discount = #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="scoRe != null">
+        sco_re = #{scoRe,jdbcType=CHAR},
+      </if>
+      <if test="extend1 != null">
+        extend1 = #{extend1,jdbcType=VARCHAR},
+      </if>
+      <if test="extend2 != null">
+        extend2 = #{extend2,jdbcType=VARCHAR},
+      </if>
+      <if test="extend3 != null">
+        extend3 = #{extend3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where cust_level = #{custLevel,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nyist.entity.Discount">
+    update discount
+    set discount = #{discount,jdbcType=DECIMAL},
+      sco_re = #{scoRe,jdbcType=CHAR},
+      extend1 = #{extend1,jdbcType=VARCHAR},
+      extend2 = #{extend2,jdbcType=VARCHAR},
+      extend3 = #{extend3,jdbcType=VARCHAR}
+    where cust_level = #{custLevel,jdbcType=CHAR}
+  </update>
+
+</mapper>

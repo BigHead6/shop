@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" >
+    <title>注册</title>
+    <link rel="stylesheet" th:href="@{layui/css/layui.css}">
+</head>
+<body>
+
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-header">表单组合</div>
+        <div class="layui-card-body" style="padding: 15px;">
+            <form class="layui-form layui-form-pane">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">邮箱：</label>
+                    <div class="layui-input-block">
+                        <input id="email" type="email" name="username" class="layui-input" lay-verify="required"/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">密码：</label>
+                    <div class="layui-input-block">
+                        <input id="password" type="password" name="password" class="layui-input" lay-verify="required"/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">邮箱验证码：</label>
+                    <div class="layui-input-block">
+                        <input id="checkCode" type="text" name="checkCode" class="layui-input" lay-verify="required"/>
+                        <button id="sendCheckCode" type="button" class="layui-btn layui-btn-normal">获取验证码</button>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit lay-filter="register">确认</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script src="../../../layuiadmin/layui/layui.js"></script>
+<script src="../../../layuiadmin/layui/layui.all.js"></script>
+<script>
+    ;!function(){
+        //无需再执行layui.use()方法加载模块，直接使用即可
+        var form = layui.form
+            ,layer = layui.layer;
+        var $ = layui.$
+            ,admin = layui.admin
+            ,element = layui.element
+            ,layer = layui.layer
+            ,laydate = layui.laydate
+            ,form = layui.form;
+        form.render();
+        laydate.render();
+        form.on("submit(register)",function (data) {
+            var inputCheckCode = $("#checkCode").val();
+            console.log(123)
+            console.log(data.field)
+            if (inputCheckCode == checkCode){
+                $.ajax({
+                    url:"/register",
+                    type:"POST",
+                    data:data.field,
+                    async:false,
+                    success:function (text) {
+                        if ("ok" == text){
+                            layer.alert("注册成功",function () {
+                              document.location.href = "index";
+                            });
+                        }else{
+                            layer.alert("注册失败");
+                        }
+                    },
+                    error:function () {
+                        consoe.log("测试成功")
+                    }
+                });
+            } else{
+                layer.msg("验证码输入错误");
+            }
+            return false;
+        });
+
+        //验证码
+        var checkCode = "";
+
+        $("#sendCheckCode").click(function () {
+            var email = $("#email").val();
+            if (email == null || email == ""){
+                layer.msg("请输入邮箱！！！");
+                return;
+            }
+            var index = layer.open({
+                type:3,
+                content:"邮件发送中..."
+            });
+
+            $.ajax({
+                url:"/getCheckCode?email="+email,
+                type:"post",
+                success:function (text) {
+                    if (text != null && text != ""){
+                        layer.close(index);
+                        layer.msg("已发送");
+                        checkCode = text;
+                        countDown();
+                    } else{
+                        layer.alert("获取失败，请重新获取")
+                    }
+                }
+            });
+        });
+
+        var maxTime = 60;
+        function countDown(){
+            if (maxTime == 0){
+                checkCode = "";
+                $("#sendCheckCode").removeClass("layui-btn-disabled");
+                $("#sendCheckCode").removeAttr("disabled")
+                $("#sendCheckCode").html("获取验证码");
+                maxTime = 60;
+            }else{
+                $("#sendCheckCode").attr("disabled","disabled");
+                $("#sendCheckCode").addClass("layui-btn-disabled");
+                form.render();
+                $("#sendCheckCode").html(maxTime+"秒后重新获取");
+                maxTime--;
+                setTimeout(countDown,1000);
+            }
+        }
+    }();
+</script>
+</body>
+</html>

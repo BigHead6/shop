@@ -1,0 +1,489 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>首页</title>
+    <!--引入·外部文件-->
+    <div th:include="public/pagehead::head"></div>
+
+</head>
+
+<body>
+<div class="hmtop">
+    <!--顶部导航条 -->
+    <div th:include="public/pagehead::common"></div>
+
+    <!--悬浮搜索框-->
+    <div th:include="public/pagehead::search"></div>
+
+    <div class="clear"></div>
+</div>
+<div class="banner">
+    <!--轮播 -->
+    <div class="am-slider am-slider-default scoll" data-am-flexslider id="demo-slider-0">
+        <ul class="am-slides">
+            <li class="banner1"><a><img th:src="@{/images/ad11.jpg}"/></a></li>
+            <li class="banner2"><a><img th:src="@{/images/ad22.jpg}"/></a></li>
+            <li class="banner3"><a><img th:src="@{/images/ad33.jpg}"/></a></li>
+            <li class="banner4"><a><img th:src="@{/images/ad44.jpg}"/></a></li>
+        </ul>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="shopNav">
+    <div class="slideall">
+        <!--全部分类-->
+        <div th:include="public/pagehead::category"></div>
+
+        <!--侧边导航 -->
+        <div id="nav" class="navfull">
+            <div class="area clearfix">
+                <div class="category-content" id="guide_2">
+
+                    <div class="category">
+                        <ul class="category-list" id="js_climit_li">
+                            <li class="appliance js_toggle relative "  th:each="kind,status: ${map}">
+                                <div class="category-info">
+                                    <h3 class="category-name b-category-name">
+                                        <i><img th:src="@{/images/cake.png}"></i>
+                                        <a class="ml-22" title="点心"th:text="${kind.key.getKindName()}">点心/蛋糕</a>
+                                    </h3>
+                                    <em>&gt;</em></div>
+                                <div class="menu-item menu-in top">
+                                    <div class="area-in">
+                                        <div class="area-bg">
+                                            <div class="menu-srot">
+                                                <div class="sort-side" th:if="${session.customer}!=null">
+                                                    <dl class="dl-sort">
+                                                        <dd th:each="product1: ${kind.value}"><a  th:href="@{search?txt=}+${product1.getName()}">
+                                                            <span th:text="${product1.getName()}">脱水蛋糕</span></a>
+                                                        </dd>
+                                                    </dl>
+                                                </div>
+                                                <div class="sort-side" th:if="${session.customer}==null">
+                                                    <dl class="dl-sort">
+                                                        <dd th:each="product1: ${kind.value}"><a  th:href="login">
+                                                            <span th:text="${product1.getName()}">脱水蛋糕</span></a>
+                                                        </dd>
+                                                    </dl>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <b class="arrow"></b>
+                            </li>
+                           <!-- <li class="appliance js_toggle relative">
+                                <div class="category-info">
+                                    <h3 class="category-name b-category-name"><i><img
+                                            th:src="@{/images/cookies.png}"></i><a class="ml-22" title="饼干、膨化">饼干/膨化</a>
+                                    </h3>
+                                    <em>&gt;</em></div>
+                                <div class="menu-item menu-in top">
+                                    <div class="area-in">
+                                        <div class="area-bg">
+                                            <div class="menu-srot">
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <b class="arrow"></b>
+                            </li>
+                            <li class="appliance js_toggle relative">
+                                <div class="category-info">
+                                    <h3 class="category-name b-category-name"><i><img
+                                            th:src="@{/images/cookies.png}"></i><a class="ml-22" title="饼干、膨化">水果/水果</a>
+                                    </h3>
+                                    <em>&gt;</em></div>
+                                <div class="menu-item menu-in top">
+                                    <div class="area-in">
+                                        <div class="area-bg">
+                                            <div class="menu-srot">
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <b class="arrow"></b>
+                            </li>-->
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!--轮播-->
+
+        <script type="text/javascript">
+            (function () {
+                $('.am-slider').flexslider();
+            });
+            $(document).ready(function () {
+                $("li").hover(function () {
+                    $(".category-content .category-list li.first .menu-in").css("display", "none");
+                    $(".category-content .category-list li.first").removeClass("hover");
+                    $(this).addClass("hover");
+                    $(this).children("div.menu-in").css("display", "block")
+                }, function () {
+                    $(this).removeClass("hover")
+                    $(this).children("div.menu-in").css("display", "none")
+                });
+            })
+        </script>
+
+        <!--走马灯 -->
+        <div class="clear"></div>
+    </div>
+    <!-- <script type="text/javascript">
+         if ($(window).width() < 640) {
+             function autoScroll(obj) {
+                 $(obj).find("ul").animate({
+                     marginTop: "-39px"
+                 }, 500, function() {
+                     $(this).css({
+                         marginTop: "0px"
+                     }).find("li:first").appendTo(this);
+                 })
+             }
+             $(function() {
+                 setInterval('autoScroll(".demo")', 3000);
+             })
+         }
+     </script>-->
+</div>
+<div class="shopMainbg">
+    <div class="shopMain" id="shopmain">
+
+        <!--今日推荐 -->
+
+        <div name="tj" class="am-g am-g-fixed recommendation">
+            <div class="clock am-u-sm-3">
+                <img th:src="@{/images/2016.png}"/>
+                <p>今日<br>推荐</p>
+            </div>
+
+            <div th:each="tj: ${tjList}" class="am-u-sm-4 am-u-lg-3 ">
+                <div class="info ">
+                    <h3 th:text="${tj.getName()} ">真的有鱼</h3>
+                    <h4 th:text="${tj.getProdDesc()}">开年福利篇</h4>
+                </div>
+                <div class="recommendationMain one" th:if="${session.customer}!=null">
+                    <a th:href="@{introduction?id=}+${tj.getId()}"><img th:src="${tj.getImage()} "></img></a>
+                </div>
+                <div class="recommendationMain one" th:if="${session.customer}==null">
+                    <a th:href="login"><img th:src="${tj.getImage()} "></img></a>
+                </div>
+            </div>
+          <!--  <div class="am-u-sm-4 am-u-lg-3 ">
+                <div class="info ">
+                    <h3>囤货过冬</h3>
+                    <h4>让爱早回家</h4>
+                </div>
+                <div class="recommendationMain two">
+                    <img th:src="@{/images/tj1.png} "></img>
+                </div>
+            </div>
+            <div class="am-u-sm-4 am-u-lg-3 ">
+                <div class="info ">
+                    <h3>浪漫情人节</h3>
+                    <h4>甜甜蜜蜜</h4>
+                </div>
+                <div class="recommendationMain three">
+                    <img th:src="@{/images/tj2.png}"> </img>
+                </div>
+            </div>-->
+
+        </div>
+        <div class="clear "></div>
+        <!--热门活动 -->
+
+        <div name="yh" class="am-container activity ">
+            <div class="shopTitle ">
+                <h4>活动</h4>
+                <h3>每期活动 优惠享不停 </h3>
+                <span class="more ">
+                              <a href="search?txt= ">全部活动<i class="am-icon-angle-right" style="padding-left:10px ;"></i></a>
+                        </span>
+            </div>
+            <div class="am-g am-g-fixed ">
+
+                <div th:each="product: ${activityList}" id="${product.getName()}" class="am-u-sm-3 ">
+                    <div class="icon-sale one "></div>
+                    <h4 th:text="${product.getName()}"></h4>
+                    <div class="activityMain " th:if="${session.customer}!=null">
+                        <a th:href="@{introduction?id=}+${product.getId()}"> <img th:src="${product.getImage()}"/></a>
+                    </div>
+                    <div class="activityMain" th:if="${session.customer}==null">
+                        <a th:href="login"> <img th:src="${product.getImage()}"/></a>
+                    </div>
+                    <div class="info">
+                        <h3 th:text="${product.getProdDesc()}">春节秒杀</h3>
+                    </div>
+                </div>
+
+                <!--  <div class="am-u-sm-3 ">
+                      <div class="icon-sale two "></div>
+                      <h4>特惠</h4>
+                      <div class="activityMain ">
+                          <img th:src="@{/images/activity2.jpg} "></img>
+                      </div>
+                      <div class="info ">
+                          <h3>春节送礼优选</h3>
+                      </div>
+                  </div>
+
+                  <div class="am-u-sm-3 ">
+                      <div class="icon-sale three "></div>
+                      <h4>团购</h4>
+                      <div class="activityMain ">
+                          <img th:src="@{/images/activity3.jpg} "></img>
+                      </div>
+                      <div class="info ">
+                          <h3>春节送礼优选</h3>
+                      </div>
+                  </div>
+
+                  <div class="am-u-sm-3 last ">
+                      <div class="icon-sale "></div>
+                      <h4>超值</h4>
+                      <div class="activityMain ">
+                          <img th:src="@{/images/activity.jpg} "></img>
+                      </div>
+                      <div class="info ">
+                          <h3>春节送礼优选</h3>
+                      </div>
+                  </div>-->
+
+            </div>
+        </div>
+        <div class="clear "></div>
+
+
+        <div id="f1" name="cz">
+            <!--甜点-->
+
+            <div class="am-container ">
+                <div class="shopTitle ">
+                    <h4>甜品</h4>
+                    <h3>每一道甜品都有一个故事</h3>
+                    <!--<div class="today-brands ">
+                        <a href="# ">桂花糕</a>
+                        <a href="# ">奶皮酥</a>
+                        <a href="# ">栗子糕 </a>
+                        <a href="# ">马卡龙</a>
+                        <a href="# ">铜锣烧</a>
+                        <a href="# ">豌豆黄</a>
+                    </div>-->
+                    <span class="more ">
+                    <a href="search?txt= ">更多美味<i class="am-icon-angle-right" style="padding-left:10px ;"></i></a>
+                        </span>
+                </div>
+            </div>
+
+            <div class="am-g am-g-fixed floodFour">
+                <div class="am-u-sm-5 am-u-md-4 text-one list ">
+                    <div class="word">
+                        <a class="outer" href="#"><span class="inner"><b class="text">核桃</b></span></a>
+                        <a class="outer" href="#"><span class="inner"><b class="text">核桃</b></span></a>
+                        <a class="outer" href="#"><span class="inner"><b class="text">核桃</b></span></a>
+                        <a class="outer" href="#"><span class="inner"><b class="text">核桃</b></span></a>
+                        <a class="outer" href="#"><span class="inner"><b class="text">核桃</b></span></a>
+                        <a class="outer" href="#"><span class="inner"><b class="text">核桃</b></span></a>
+                    </div>
+                    <a href="# ">
+                        <div class="outer-con ">
+                            <div class="title ">
+                                开抢啦！
+                            </div>
+                            <div class="sub-title ">
+                                零食大礼包
+                            </div>
+                        </div>
+                        <img th:src="@{/images/act1.png} "/>
+                    </a>
+                    <div class="triangle-topright"></div>
+                </div>
+
+                <div th:each="product: ${fruitList}" class="am-u-sm-7 am-u-md-4 text-two">
+                    <div class="outer-con ">
+                        <div th:text="${product.getName()}" class="title ">
+                            雪之恋和风大福
+                        </div>
+                        <div th:text="${product.getUnitPrice()}" class="sub-title ">
+                            ¥13.8
+                        </div>
+                        <i class="am-icon-shopping-basket am-icon-md  seprate" th:text="${product.getId()}"></i>
+                    </div>
+                    <div class="activityMain" th:if="${session.customer}!=null">
+                        <a th:href="@{  introduction?id=}+${product.getId()}"><img th:src="${product.getImage()}" style="height: 180px;width: 180px;"/></a>
+                    </div>
+                    <div class="activityMain" th:if="${session.customer}==null">
+                        <a th:href="login"><img th:src="${product.getImage()}"/></a>
+                    </div>
+
+                </div>
+
+
+
+                <!--<div class="am-u-sm-7 am-u-md-4 text-two">
+                    <div class="outer-con ">
+                        <div class="title ">
+                            雪之恋和风大福
+                        </div>
+                        <div class="sub-title ">
+                            ¥13.8
+                        </div>
+                        <i class="am-icon-shopping-basket am-icon-md  seprate"></i>
+                    </div>
+                    <a href="# "><img th:src="@{/images/1.jpg}"/></a>
+                </div>-->
+
+            </div>
+            <div class="clear "></div>
+
+        </div>
+
+
+        <!-- introduce-->
+        <div th:include="public/pagehead::footer"></div>
+
+    </div>
+</div>
+
+<script type="text/javascript " src="@{/basic/js/quick_links.js "></script>
+<!--头部菜单循环生成-->
+<!--<script>
+    /*<![CDATA[*/
+    //thymeleaf 不支持拼接，加入 上面的代码支持
+    //$(document).ready(function(){
+    //添加头部标签
+    $('#js_climit_li').append(
+        " <li class=\"appliance js_toggle relative\">" +
+        "<div class=\"category-info\">" +
+        "<h3 class=\"category-name b-category-name\"><i><img src=\"../images/cookies.png\"></i><a class=\"ml-22\" title=\"12441241\">饼干/膨化</a></h3>" +
+        "<em>&gt;</em>" +
+        "</div>" +
+        "<div class=\"menu-item menu-in top\">\n" +
+        "<div class=\"area-in\">" +
+        "<div class=\"area-bg\">" +
+        "<div class=\"menu-srot\">" +
+        " <div class=\"sort-side\">" +
+        "<dl class=\"dl-sort\">" +
+        "<dt><span title=\"蛋糕\">蛋糕</span></dt>" +
+        "<dd><a title=\"蒸蛋糕\" href=\"search\"><span>蒸蛋糕</span></a></dd>" +
+        "<dd><a title=\"脱水蛋糕\" href=\"#\"><span>脱水蛋糕</span></a></dd>" +
+        "<dd><a title=\"瑞士卷\" href=\"#\"><span>瑞士卷</span></a></dd>" +
+        "<dd><a title=\"软面包\" href=\"#\"><span>软面包</span></a></dd>" +
+        "<dd><a title=\"马卡龙\" href=\"#\"><span>马卡龙</span></a></dd>" +
+        "<dd><a title=\"千层饼\" href=\"#\"><span>千层饼</span></a></dd>" +
+        "<dd><a title=\"甜甜圈\" href=\"#\"><span>甜甜圈</span></a></dd>" +
+        "<dd><a title=\"蒸三明治\" href=\"#\"><span>蒸三明治</span></a></dd>" +
+        "<dd><a title=\"铜锣烧\" href=\"#\"><span>铜锣烧</span></a></dd>" +
+        "</dl>" +
+        "<dl class=\"dl-sort\">" +
+        "<dt><span title=\"蛋糕\">点心</span></dt>\n" +
+        "<dd><a title=\"蒸蛋糕\" href=\"#\"><span>蒸蛋糕</span></a></dd>" +
+        "<dd><a title=\"脱水蛋糕\" href=\"#\"><span>脱水蛋糕</span></a></dd>" +
+        "<dd><a title=\"瑞士卷\" href=\"#\"><span>瑞士卷</span></a></dd>" +
+        "<dd><a title=\"软面包\" href=\"#\"><span>软面包</span></a></dd>" +
+        "<dd><a title=\"马卡龙\" href=\"#\"><span>马卡龙</span></a></dd>" +
+        "<dd><a title=\"千层饼\" href=\"#\"><span>千层饼</span></a></dd>" +
+        "<dd><a title=\"甜甜圈\" href=\"#\"><span>甜甜圈</span></a></dd>" +
+        "<dd><a title=\"蒸三明治\" href=\"#\"><span>蒸三明治</span></a></dd>" +
+        "<dd><a title=\"铜锣烧\" href=\"#\"><span>铜锣烧</span></a></dd>" +
+        "</dl>" +
+        "</div>" +
+        "</div>" +
+        "</div>" +
+        "</div>" +
+        "</div>" +
+        "<b class=\"arrow\"></b>" +
+        "</li>")
+
+
+    // });
+    /*]]>*/
+</script>-->
+<!--搜索js-->
+<script th:src="@{/layuiadmin/layui/layui.all.js}">  </script>
+<script>
+
+    ;!function(){
+        //无需再执行layui.use()方法加载模块，直接使用即可
+        var form = layui.form
+            , layer = layui.layer;
+        var $ = layui.$
+            , admin = layui.admin
+            , element = layui.element
+            , layer = layui.layer
+            , laydate = layui.laydate
+            , form = layui.form;
+        form.render();
+        laydate.render();
+        $('.am-icon-shopping-basket').on('click',function () {
+         // console.log($(this).text())
+            var id = $(this).text()
+            $.ajax({
+                type:'post',
+                url:'shopcartadd',
+                async:false,
+                data:JSON.stringify({id:id,num:1}),
+                contentType: "application/json",
+                success:function (res) {
+                    console.log(res)
+                    if (res=="ok") {
+                        layer.msg('添加成功', {
+                            icon: 6,
+                        })
+                    }
+                },
+                error:function () {
+                    console.log(123)
+                }
+            })
+        })
+
+
+    }();
+
+</script>
+<script>
+    /*<![CDATA[*/
+    $(document).ready(function(){
+    var a = [1,2];
+    $.ajax({
+        url:'',
+        async:false,
+        dataType:'json',
+        success:function (a) {
+            for (var i=0;i<a.length;i++){
+                $('#activityList').append(' <div class="am-u-sm-3 ">' +
+                    ' <div class="icon-sale one "></div>' +
+                    '<h4>秒杀</h4>' +
+                    '<div class="activityMain ">' +
+                    '<img src="images/activity1.jpg"> </img>'+
+                    '</div>' +
+                    '<div class="info ">' +
+                    '<h3>春节送礼优选</h3>' +
+                    '</div>' +
+                    '</div>')
+            }
+        }
+    })
+    });
+
+    /*]]>*/
+</script>
+</body>
+
+</html>

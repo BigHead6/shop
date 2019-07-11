@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nyist.dao.ProductMapper">
+  <resultMap id="BaseResultMap" type="com.nyist.entity.Product">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="CHAR" property="name" />
+    <result column="kind_no" jdbcType="CHAR" property="kindNo" />
+    <result column="sup_no" jdbcType="CHAR" property="supNo" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="storage" jdbcType="INTEGER" property="storage" />
+    <result column="is_hot" jdbcType="INTEGER" property="isHot" />
+    <result column="prod_desc" jdbcType="VARCHAR" property="prodDesc" />
+    <result column="image" jdbcType="VARCHAR" property="image" />
+    <result column="pro_date" jdbcType="TIMESTAMP" property="proDate" />
+    <result column="keep_date" jdbcType="TIMESTAMP" property="keepDate" />
+    <result column="unit_price" jdbcType="DECIMAL" property="unitPrice" />
+    <result column="supply" jdbcType="INTEGER" property="supply" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="extend1" jdbcType="VARCHAR" property="extend1" />
+    <result column="extend2" jdbcType="VARCHAR" property="extend2" />
+    <result column="extend3" jdbcType="VARCHAR" property="extend3" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, kind_no, sup_no, status, storage, is_hot, prod_desc, image, pro_date, keep_date,
+    unit_price, supply, create_time, update_time, extend1, extend2, extend3
+  </sql>
+
+  <select id="selectByHot" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from product
+    where is_hot = #{isHot,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM product
+  </select>
+
+  <select id="selectByName" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM product
+    WHERE  `name` like "%"#{name,jdbcType=CHAR}"%"
+  </select>
+
+  <select id="selectByKindNo" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM product
+    WHERE kind_no = #{kindno,jdbcType=CHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from product
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.nyist.entity.Product">
+    insert into product (id, name, kind_no, sup_no,
+      status, storage, is_hot,
+      prod_desc, image, pro_date,
+      keep_date, unit_price, supply,
+      create_time, update_time, extend1,
+      extend2, extend3)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=CHAR}, #{kindNo,jdbcType=CHAR}, #{supNo,jdbcType=CHAR},
+      #{status,jdbcType=INTEGER}, #{storage,jdbcType=INTEGER}, #{isHot,jdbcType=INTEGER},
+      #{prodDesc,jdbcType=VARCHAR}, #{image,jdbcType=VARCHAR}, #{proDate,jdbcType=TIMESTAMP},
+      #{keepDate,jdbcType=TIMESTAMP}, #{unitPrice,jdbcType=DECIMAL}, #{supply,jdbcType=INTEGER},
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{extend1,jdbcType=VARCHAR},
+      #{extend2,jdbcType=VARCHAR}, #{extend3,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nyist.entity.Product">
+    insert into product
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="kindNo != null">
+        kind_no,
+      </if>
+      <if test="supNo != null">
+        sup_no,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="storage != null">
+        storage,
+      </if>
+      <if test="isHot != null">
+        is_hot,
+      </if>
+      <if test="prodDesc != null">
+        prod_desc,
+      </if>
+      <if test="image != null">
+        image,
+      </if>
+      <if test="proDate != null">
+        pro_date,
+      </if>
+      <if test="keepDate != null">
+        keep_date,
+      </if>
+      <if test="unitPrice != null">
+        unit_price,
+      </if>
+      <if test="supply != null">
+        supply,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="extend1 != null">
+        extend1,
+      </if>
+      <if test="extend2 != null">
+        extend2,
+      </if>
+      <if test="extend3 != null">
+        extend3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=CHAR},
+      </if>
+      <if test="kindNo != null">
+        #{kindNo,jdbcType=CHAR},
+      </if>
+      <if test="supNo != null">
+        #{supNo,jdbcType=CHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="storage != null">
+        #{storage,jdbcType=INTEGER},
+      </if>
+      <if test="isHot != null">
+        #{isHot,jdbcType=INTEGER},
+      </if>
+      <if test="prodDesc != null">
+        #{prodDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null">
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="proDate != null">
+        #{proDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="keepDate != null">
+        #{keepDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="unitPrice != null">
+        #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="supply != null">
+        #{supply,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extend1 != null">
+        #{extend1,jdbcType=VARCHAR},
+      </if>
+      <if test="extend2 != null">
+        #{extend2,jdbcType=VARCHAR},
+      </if>
+      <if test="extend3 != null">
+        #{extend3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nyist.entity.Product">
+    update product
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=CHAR},
+      </if>
+      <if test="kindNo != null">
+        kind_no = #{kindNo,jdbcType=CHAR},
+      </if>
+      <if test="supNo != null">
+        sup_no = #{supNo,jdbcType=CHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="storage != null">
+        storage = #{storage,jdbcType=INTEGER},
+      </if>
+      <if test="isHot != null">
+        is_hot = #{isHot,jdbcType=INTEGER},
+      </if>
+      <if test="prodDesc != null">
+        prod_desc = #{prodDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null">
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="proDate != null">
+        pro_date = #{proDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="keepDate != null">
+        keep_date = #{keepDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="unitPrice != null">
+        unit_price = #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="supply != null">
+        supply = #{supply,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extend1 != null">
+        extend1 = #{extend1,jdbcType=VARCHAR},
+      </if>
+      <if test="extend2 != null">
+        extend2 = #{extend2,jdbcType=VARCHAR},
+      </if>
+      <if test="extend3 != null">
+        extend3 = #{extend3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nyist.entity.Product">
+    update product
+    set name = #{name,jdbcType=CHAR},
+      kind_no = #{kindNo,jdbcType=CHAR},
+      sup_no = #{supNo,jdbcType=CHAR},
+      status = #{status,jdbcType=INTEGER},
+      storage = #{storage,jdbcType=INTEGER},
+      is_hot = #{isHot,jdbcType=INTEGER},
+      prod_desc = #{prodDesc,jdbcType=VARCHAR},
+      image = #{image,jdbcType=VARCHAR},
+      pro_date = #{proDate,jdbcType=TIMESTAMP},
+      keep_date = #{keepDate,jdbcType=TIMESTAMP},
+      unit_price = #{unitPrice,jdbcType=DECIMAL},
+      supply = #{supply,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      extend1 = #{extend1,jdbcType=VARCHAR},
+      extend2 = #{extend2,jdbcType=VARCHAR},
+      extend3 = #{extend3,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from product
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+
+  <select id="selectByDesc" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from product
+    where  prod_desc  like #"%"{prodDesc,jdbcType=VARCHAR}"%"
+  </select>
+</mapper>

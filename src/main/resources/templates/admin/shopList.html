@@ -1,0 +1,511 @@
+<!--商品列表页面-->
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head >
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--静态路径-->
+    <!-- <link rel="stylesheet" type="text/css" href="../../static/layuiadmin/layui/css/layui.css" media="all">
+     <link rel="stylesheet" type="text/css" href="../../static/layuiadmin/style/admin.css" media="all">
+     <script type="text/javascript" src="../../static/layuiadmin/layui/layui.js"></script>-->
+    <link rel="stylesheet" type="text/css"th:href="@{/layuiadmin/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" type="text/css" th:href="@{/layuiadmin/style/admin.css}" media="all">
+    <script type="text/javascript" th:src="@{/layuiadmin/layui/layui.js}"></script>
+    <style>
+        .allView{
+            text-align: center;
+            font-size: 2em;
+            line-height: 160px;
+            color: #57a88b;
+
+            border-radius: 5px;
+        }
+        .distance{
+            border: 1px solid #e29f2a;
+            margin-top: 20px;
+            font-size: 1em;
+            text-align: center;
+            color: #070000;
+        }
+        .top{
+
+            margin-top: -5%;
+        }
+        .text{
+            background-color: rgb(255, 255, 251);
+        }
+        hr{
+            width: 80%;
+        }
+        .p_hr{
+            margin-top: 15px;
+        }
+        .right-text{
+            text-align: center;
+            margin-left: 20%;
+            color: red;
+        }
+
+    </style>
+
+</head>
+<body>
+    <div class="layui-fluid">
+
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md12">
+                <div class="layui-card">
+
+                    <div class="layui-card-header"> 商品列表</div>
+                    <div class="layui-card-body">
+                        <div class=" layui-row-md12">
+                            <button class="layui-btn addShop" style="margin-bottom: 10px;">添加商品</button>
+                        </div>
+                        <table class="layui-hide" id="demo" lay-filter="demo"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/html" id="barDemo">
+            <!--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>-->
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        </script>
+    </div>
+    <!--//编辑弹框-->
+    <div style="display: none;" id="dome">
+        <form  class="layui-form"  id="form1" action="">
+
+            <div class="layui-form-item" style="margin-top: 20px;">
+                <label class="layui-form-label">商品名称</label>
+                <div class="layui-col-md7 layui-col-sm7">
+                    <input type="text" name="name" lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item" style>
+                <label class="layui-form-label">商品描述</label>
+                <div class="layui-col-md7 layui-col-sm7">
+                    <input type="text" name="prodDesc" lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item" >
+                <label class="layui-form-label">商品分类</label>
+                <div class="layui-col-md7 layui-col-sm7">
+                    <select name="kindNo1" id="kind">
+
+
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-form-item" >
+                <label class="layui-form-label">商品品牌</label>
+                <div class="layui-col-md7 layui-col-sm7">
+                    <select name="supNo1" id="wh">
+
+
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item" >
+                <label class="layui-form-label">是否下架</label>
+                <div class="layui-col-md7 layui-col-sm7">
+                    <select name="status" id="status">
+                        <option value="0"></option>
+                        <option value="1">已上架</option>
+                        <option value="2">已下架</option>
+                        <option value="3">售空</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item" >
+                <label class="layui-form-label">营销方式</label>
+                <div class="layui-col-md7 layui-col-sm7">
+                    <select name="isHot1" id="marketing">
+
+
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item" style>
+                <label class="layui-form-label">商品售价</label>
+                <div class="layui-col-md7 layui-col-sm7">
+                    <input type="text" name="price" lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item" style>
+                <label class="layui-form-label">商品库存</label>
+                <div class="layui-col-md7 layui-col-sm7">
+                    <input type="text" name="storage" lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item  layui-col-md-offset1" >
+                <button type="button" class="layui-btn" id="test1">
+                    <i class="layui-icon">&#xe67c;</i>上传图片
+                </button>
+            </div>
+            <div class="layui-form-item layui-col-md-offset1">
+                <div class="layui-input-block layui-btn-group ">
+                    <button class="layui-btn" lay-submit lay-filter="form1" id="uplode">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div style="display: none;" id="dome1">
+        <form  class="layui-form"  id="form2" action="">
+
+            <div class="layui-form-item" style="margin-top: 20px;">
+                <label class="layui-form-label">商品名称</label>
+                <div class="layui-col-md7 layui-col-sm7">
+                    <input type="text" name="name" lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item" style>
+                <label class="layui-form-label">商品描述</label>
+                <div class="layui-col-md7 layui-col-sm7">
+                    <input type="text" name="prodDesc" lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item" >
+                <label class="layui-form-label">商品分类</label>
+                <div class="layui-col-md7 layui-col-sm7">
+                    <select name="kindNo1" id="kind1">
+
+
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-form-item" >
+                <label class="layui-form-label">商品品牌</label>
+                <div class="layui-col-md7 layui-col-sm7">
+                    <select name="supNo1" id="wh1">
+
+
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item" >
+                <label class="layui-form-label">是否下架</label>
+                <div class="layui-col-md7 layui-col-sm7">
+                    <select name="status" >
+                        <option value="0"></option>
+                        <option value="1">已上架</option>
+                        <option value="2">已下架</option>
+                        <option value="3">售空</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item" >
+                <label class="layui-form-label">营销方式</label>
+                <div class="layui-col-md7 layui-col-sm7">
+                    <select name="isHot1" id="marketing1">
+
+
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item" style>
+                <label class="layui-form-label">商品售价</label>
+                <div class="layui-col-md7 layui-col-sm7">
+                    <input type="text" name="price" lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item" style>
+                <label class="layui-form-label">商品库存</label>
+                <div class="layui-col-md7 layui-col-sm7">
+                    <input type="text" name="storage" lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item  layui-col-md-offset1" >
+                <button type="button" class="layui-btn" id="test2">
+                    <i class="layui-icon">&#xe67c;</i>上传图片
+                </button>
+            </div>
+            <div class="layui-form-item layui-col-md-offset1">
+                <div class="layui-input-block layui-btn-group ">
+                    <button class="layui-btn" lay-submit lay-filter="form2" >立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script>
+        layui.use(['element','table','jquery','form','upload'] ,function(){
+            var element = layui.element,
+            table = layui.table,
+                form = layui.form,
+                $= layui.$
+             upload = layui.upload
+           ;
+            table.render({
+                elem: '#demo'
+                //,skin: 'line' //表格风格
+                ,even: true
+                ,page: true //是否显示分页
+                ,limits: [2, 7, 10]
+                ,limit: 10 //每页默认显示的数量
+                ,url:'test'
+                ,id: 'testReload'
+                ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                ,cols: [
+                        [
+                            {type:'checkbox'},
+                            { width:'10%',title: '商品',templet:function (b) {
+                                    return '  <img src="'+b.image+'" alt="">'
+                                }},
+                            {field:'id', width:'10%', title: 'ID', sort: true},
+                            {field:'name', width:'10%', title: '商品名称', },
+                            {field:'extend1', width:'10%', title: '商品类别', },
+                            {field:'status', width:'10%', title: '商品状态',templet:function (b) {
+                                   if (b.status==1){
+                                       return '售卖中'
+                                   } else if (b.status ==0){
+                                       return '已下架'
+                                   }else{
+                                       return '已售罄'
+                                   }
+                                } },
+                            {field:'extend3', width:'10%', title: '营销方式', },
+                            {field:'supply', width:'10%', title: '库存', },
+                            {field:'unitPrice', width:'10%', title: '商品单价', },
+                            { field: 'right',title: '操作',toolbar: "#barDemo",fixed: 'right'
+                            }
+                    ]
+                ]
+                , response: {
+                    statusName: 'code',
+                    statusCode: '1',
+                    msgName: 'msg',
+                    countName: 'total',
+                    dataName: 'data'
+                },  request: {
+                    pageName: 'currentPage', // 当前页
+                    limitName: 'pageSize' // 每页面显示多少条
+                },
+            });
+            var shopId;
+
+            table.on('tool(demo)', function(obj) {
+
+                var data = obj.data
+                shopId = data.id;
+                if (obj.event ==='detail'){
+                    console.log(data)
+                }else if (obj.event ==='edit'){
+                    //获取商品种类 与品牌种类
+                    $.ajax({
+                        type:'post',
+                        url:'getKind',
+                        dataType:'json',
+                        success:function (res) {
+                            console.log(res)
+                            var optionstring1 ='';
+                            var optionstring2 ='';
+                            var optionstring3 ='';
+                            for(var i= 0;i<res[0].length;i++){
+                                if(data.extend1 == res[0][i]){
+                                    optionstring1 += "<option value=\"" + i+ "\" selected>" + res[0][i] + "</option>";
+                                }else{
+                                    optionstring1 += "<option value=\"" + i+ "\">" + res[0][i] + "</option>";
+                                }
+
+                            }
+                            $('#kind').html('<option value=""></option>' + optionstring1);
+
+                            for(var j= 0;j<res[1].length;j++){
+                                if(data.extend2 == res[1][j]){
+                                    optionstring2 += "<option value=\"" + j+ "\" selected>" + res[1][j] + "</option>";
+                                }else{
+                                    optionstring2 += "<option value=\"" + j+ "\">" + res[1][j] + "</option>";
+                                }
+                            }
+                            $('#wh').html('<option value=""></option>' + optionstring2);
+
+                            for(var k= 0;k<res[2].length;k++){
+                                if(data.extend3 == res[2][k]){
+                                    optionstring3 += "<option value=\"" + k+ "\" selected>" + res[2][k] + "</option>";
+                                }else{
+                                    optionstring3 += "<option value=\"" + k+ "\">" + res[2][k] + "</option>";
+                                }
+                            }
+                            $('#marketing').html('<option value=""></option>' + optionstring3);
+                            $('#status ').find("option[value = '"+data.status+"']").attr("selected","selected");
+
+                            form.render('select');
+                        }
+                    })
+
+                    $('input[name="name"]').val(data.name)
+                    $('input[name="price"]').val(data.unitPrice)
+                    $('input[name="storage"]').val(data.storage)
+                    $('input[name="prodDesc"]').val(data.prodDesc)
+                    form.render('select');
+                    layer.open({
+                        title:'修改商品信息',
+                        type: 1,
+                        area:['550px','600px'],
+                        content:$('#dome')
+                    })
+
+                }else if(obj.event==='del'){ //删除
+                    layer.confirm('确认删除',function(){
+                        $.ajax({
+                            type:"post",
+                            url:'delProduct',
+                            data:{id:data.id},
+                            dataType:'json',
+                            success:function (res) {
+                                if (res.code == 1){
+                                    layer.msg(res.msg,{icon:6})
+                                } else{
+                                    layer.msg(res.msg,{icon:5})
+                                }
+                            }
+                        })
+                    })
+
+                }
+            })
+            //…
+            var imgName;
+            var uploadInst = upload.render({
+                elem: '#test1' //绑定元素
+                ,url: 'upload' //上传接口
+                ,auto:true
+               // ,bindAction:'#uplode'
+                ,done: function(res){
+                    //上传完毕回调
+                    console.log(res)
+                    imgName=res.data
+                }
+                ,error: function(){
+                    //请求异常回调
+                }
+            });
+
+            //提交编辑表单
+            form.on('submit(form1)',function (obj) {
+                var data = obj.field;
+                data.kindNo1  =$('#kind option:selected').text()
+                data.supNo1 =  $('#wh option:selected').text()
+                data.isHot1 =  $('#marketing option:selected').text()
+                data.id = shopId
+                data.flag = 1;
+                data.imgName =imgName;
+                console.log(data)
+                $.ajax({
+                    type:"post",
+                    url:'saveProduct',
+                    async:false,
+                    data:JSON.stringify(data),
+                    dataType:'json',
+                    contentType:'application/json',
+                    success:function (res) {
+                        if (res.code==1 ){
+                            layer.msg(res.msg,{
+                                icon:6
+                            },function () {
+                                window.location.reload()
+                            })
+                        }else {
+                            layer.msg(res.msg,{
+                                icon:5
+                            })
+                        }
+                    }
+                })
+                return false;
+            })
+
+            var imgName1;
+            var uploadInst1 = upload.render({
+                elem: '#test2' //绑定元素
+                ,url: 'upload' //上传接口
+                ,auto:true
+                // ,bindAction:'#uplode'
+                ,done: function(res){
+                    //上传完毕回调
+                    console.log(res)
+                    imgName1=res.data
+                }
+                ,error: function(){
+                    //请求异常回调
+                }
+            });
+            //添加商品表单
+            $('.addShop').on('click',function () {
+                layer.open({
+                    title:'修改商品信息',
+                    type: 1,
+                    area:['550px','600px'],
+                    content:$('#dome1')
+                })
+                $.ajax({
+                    type: 'post',
+                    url: 'getKind',
+                    dataType: 'json',
+                    success:function (res) {
+
+                        console.log(optionstring1)
+                        var optionstring1 ='';
+                        var optionstring2 ='';
+                        var optionstring3 ='';
+                        for(var i= 0;i<res[0].length;i++){
+                            optionstring1 += "<option value=\"" + i+ "\">" + res[0][i] + "</option>";
+                        }
+                        $('#kind1').html('<option value=""></option>' + optionstring1);
+
+                        for(var j= 0;j<res[1].length;j++){
+                            optionstring2 += "<option value=\"" + j+ "\">" + res[1][j] + "</option>";
+                        }
+                        $('#wh1').html('<option value=""></option>' + optionstring2);
+
+                        for(var k= 0;k<res[2].length;k++){
+                            optionstring3 += "<option value=\"" + k+ "\">" + res[2][k] + "</option>";
+                        }
+                        $('#marketing1').html('<option value=""></option>' + optionstring3);
+
+                        form.render('select');
+                    }
+                })
+            })
+            //添加时提交
+            form.on('submit(form2)',function (obj) {
+                var data = obj.field;
+                data.flag=0;
+                data.supNo1 = $('#wh1 option:selected').text();
+                data.kindNo1 = $('#kind1 option:selected').text()
+                data.isHot1 =  $('#marketing1 option:selected').text()
+                data.imgName =imgName1;
+                console.log(data)
+                $.ajax({
+                    type:"post",
+                    url:'saveProduct',
+                    async:false,
+                    data:JSON.stringify(data),
+                    dataType:'json',
+                    contentType:'application/json',
+                    success:function (res) {
+                        if (res.code==1 ){
+                            layer.msg(res.msg,{
+                                icon:6
+                            },function () {
+                                window.location.reload()
+                            })
+                        }else {
+                            layer.msg(res.msg,{
+                                icon:5
+                            })
+                        }
+                    }
+                })
+                return false;
+            })
+
+        });
+    </script>
+</body>
+</html>

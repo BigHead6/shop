@@ -1,0 +1,213 @@
+<!--退单详情页面-->
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head >
+    <meta charset="UTF-8">
+    <title>退货处理</title>
+    <!--静态路径-->
+    <!-- <link rel="stylesheet" type="text/css" href="../../static/layuiadmin/layui/css/layui.css" media="all">
+     <link rel="stylesheet" type="text/css" href="../../static/layuiadmin/style/admin.css" media="all">
+     <script type="text/javascript" src="../../static/layuiadmin/layui/layui.js"></script>-->
+    <link rel="stylesheet" type="text/css"th:href="@{/layuiadmin/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" type="text/css" th:href="@{/layuiadmin/style/admin.css}" media="all">
+    <script type="text/javascript" th:src="@{/layuiadmin/layui/layui.js}"></script>
+    <style>
+        th {
+            background-color: #eee;
+        }
+       /* hr{
+            width: 80%;
+        }*/
+        #table2 th{
+            width:10%;
+            text-align: center;
+        }
+
+    </style>
+
+</head>
+<body>
+<div class="layui-fluid">
+
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+
+                <div class="layui-card-header">退货商品</div>
+                <div class="layui-card-body" >
+                    <table class="layui-table" >
+                        <tr>
+                            <th>商品图片</th>
+                            <th>商品名称</th>
+                            <th>价格/货号</th>
+                            <th>属性/描述</th>
+                            <th>数量</th>
+                            <th>小计</th>
+                        </tr>
+                        <tr th:each="saleItemVo: ${saleItemVos}">
+                            <td><img th:src="${saleItemVo.getImage()}" alt="" style="height: 80px;"></td>
+                            <td th:text="${saleItemVo.getProdName()}"></td>
+                            <td th:text="${saleItemVo.getUnitPrice()}/${saleItemVo.getQty()}"></td>
+                            <td th:text="${saleItemVo.getProDesc()}"></td>
+                            <td th:text="${saleItemVo.getQty()}"></td>
+                            <td th:text="${saleItemVo.getUnitPrice()}"></td>
+                        </tr>
+                        <tr ><td colspan="6" style="text-align: right" th:text="${sales.getTotAmt()}"></td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md12">
+            <div class="layui-card">
+
+                <div class="layui-card-header">服务单信息</div>
+                <div class="layui-card-body">
+                    <table class="layui-table" id="table2">
+                        <tr>
+                            <th>服务单号</th>
+                            <td th:text="${returns.getChanNo()}"></td>
+                        </tr>
+                        <tr>
+                            <th>申请状态</th>
+                            <td th:if="${returns.getStatus()}==0">申请退款</td>
+                            <td th:if="${returns.getStatus()}==1">退款成功</td>
+                            <td th:if="${returns.getStatus()}==2">退款失败</td>
+                        </tr>
+                        <tr>
+                            <th>订单编号</th>
+                            <td th:text="${sales.getInvoiceNo()}"></td>
+                        </tr>
+                        <tr>
+                            <th>申请时间</th>
+                            <td th:text="${returns.getDelivDate()}"></td>
+                        </tr>
+                        <tr>
+                            <th>用户账号</th>
+                            <td th:text="${customer.getCustName()}"></td>
+                        </tr>
+                        <tr>
+                            <th >用户名</th>
+                            <td th:text="${customer.getUsername()}"></td>
+                        </tr>
+                        <tr>
+                            <th>联系电话</th>
+                            <td th:text="${address.getPhone()}"></td>
+                        </tr>
+                        <tr>
+                            <th>退货原因</th>
+                            <td th:text="${returns.getChanReason()}"></td>
+                        </tr>
+                        <tr>
+                            <th>问题描述</th>
+                            <td th:text="${returns.getContent()}"></td>
+                        </tr>
+                        <tr>
+                            <th>订单金额</th>
+                            <td th:text="${sales.getTotAmt()}"></td>
+                        </tr>
+                        <tr>
+                            <th>确认退款金额</th>
+                            <td ><input type="number"></td>
+                        </tr>
+                      <!--  <tr>
+                            <th>选择收货点</th>
+                            <td th:text="${address.getProvince()+'省'+address.getCity()+'市'+address.getDistrict()+'县/区'+address.getAddress()}"></td>
+                        </tr>-->
+                        <tr>
+                            <th>收货人姓名</th>
+                            <td th:text="${address.getConsignee()}"></td>
+                        </tr>
+                        <tr>
+                            <th>所在区域</th>
+                            <td th:text="${address.getProvince()+'省'+address.getCity()+'市'+address.getDistrict()+'县/区'}"></td>
+                        </tr>
+                        <tr>
+                            <th>详细地址</th>
+                            <td th:text="${address.getAddress()}"></td>
+                        </tr>
+                        <tr>
+                            <th>联系电话</th>
+                            <td th:text="${address.getPhone()}"></td>
+                        </tr>
+                    </table>
+                    <div style="margin-bottom: 30px; text-align: center">
+
+
+                    <button class=" layui-btn sure" >确认退货</button>
+                    <button class=" layui-btn refuse">拒绝退货</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<script th:inline="javascript">
+    layui.use(['element','table','jquery','form'] ,function(){
+        var element = layui.element,
+            table = layui.table,
+            form = layui.form,
+            $= layui.$
+        ;
+        var chanNO = [[${returns.getChanNo()}]];
+        console.log(chanNO)
+        $('.sure').on('click',function () {
+            var number  = $('input[type="number"]').val();
+            if(number ==''){
+                layer.msg('请输入退款金额',{icon:5})
+            }else {
+                layer.confirm('确认退款',function () {
+                $.ajax({
+                    type:'post',
+                    url:'operation',
+                    data:{flag:1,chanNo:chanNO,money:number},
+                    dataType:'json',
+                    async:false,
+                    success:function (res) {
+                        if (res.code==1 ){
+                            layer.msg(res.msg,{
+                                icon:6
+                            },function () {
+                               document.location.href = 'returnGoods'
+                            })
+                        }else {
+                            layer.msg(res.msg,{
+                                icon:5
+                            })
+                        }
+                    }
+                })
+            })
+            }
+        })
+        $('.refuse').on('click',function () {
+            layer.confirm('确认删除',function () {
+                $.ajax({
+                    type:'post',
+                    url:'operation',
+                    data:{flag:0,chanNo:chanNO,money:0},
+                    dataType:'json',
+                    async:false,
+                    success:function (res) {
+                        if (res.code==1 ){
+                            layer.msg(res.msg,{
+                                icon:6
+                            },function () {
+                                document.location.href = 'returnGoods'
+                            })
+                        }else {
+                            layer.msg(res.msg,{
+                                icon:5
+                            })
+                        }
+                    }
+                })
+            })
+
+        })
+
+    });
+</script>
+</body>
+</html>

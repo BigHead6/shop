@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nyist.dao.DeliveryMapper">
+  <resultMap id="BaseResultMap" type="com.nyist.entity.Delivery">
+    <id column="deliv_no" jdbcType="INTEGER" property="delivNo" />
+    <result column="cust_id" jdbcType="INTEGER" property="custId" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="prod_id" jdbcType="INTEGER" property="prodId" />
+    <result column="qty" jdbcType="INTEGER" property="qty" />
+    <result column="unit_price" jdbcType="DECIMAL" property="unitPrice" />
+    <result column="tot_amt" jdbcType="DECIMAL" property="totAmt" />
+    <result column="zip" jdbcType="CHAR" property="zip" />
+    <result column="addr" jdbcType="CHAR" property="addr" />
+    <result column="tel_no" jdbcType="CHAR" property="telNo" />
+    <result column="deliv_date" jdbcType="TIMESTAMP" property="delivDate" />
+    <result column="cust_name" jdbcType="CHAR" property="custName" />
+    <result column="extend1" jdbcType="VARCHAR" property="extend1" />
+    <result column="extend2" jdbcType="VARCHAR" property="extend2" />
+    <result column="extend3" jdbcType="VARCHAR" property="extend3" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    deliv_no, cust_id, order_no, prod_id, qty, unit_price, tot_amt, zip, addr, tel_no, 
+    deliv_date, cust_name, extend1, extend2, extend3
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from delivery
+    where deliv_no = #{delivNo,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from delivery
+    where deliv_no = #{delivNo,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.nyist.entity.Delivery">
+    insert into delivery (deliv_no, cust_id, order_no, 
+      prod_id, qty, unit_price, 
+      tot_amt, zip, addr, tel_no, 
+      deliv_date, cust_name, extend1, 
+      extend2, extend3)
+    values (#{delivNo,jdbcType=INTEGER}, #{custId,jdbcType=INTEGER}, #{orderNo,jdbcType=VARCHAR},
+      #{prodId,jdbcType=INTEGER}, #{qty,jdbcType=INTEGER}, #{unitPrice,jdbcType=DECIMAL}, 
+      #{totAmt,jdbcType=DECIMAL}, #{zip,jdbcType=CHAR}, #{addr,jdbcType=CHAR}, #{telNo,jdbcType=CHAR}, 
+      #{delivDate,jdbcType=TIMESTAMP}, #{custName,jdbcType=CHAR}, #{extend1,jdbcType=VARCHAR}, 
+      #{extend2,jdbcType=VARCHAR}, #{extend3,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nyist.entity.Delivery">
+    insert into delivery
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="delivNo != null">
+        deliv_no,
+      </if>
+      <if test="custId != null">
+        cust_id,
+      </if>
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="prodId != null">
+        prod_id,
+      </if>
+      <if test="qty != null">
+        qty,
+      </if>
+      <if test="unitPrice != null">
+        unit_price,
+      </if>
+      <if test="totAmt != null">
+        tot_amt,
+      </if>
+      <if test="zip != null">
+        zip,
+      </if>
+      <if test="addr != null">
+        addr,
+      </if>
+      <if test="telNo != null">
+        tel_no,
+      </if>
+      <if test="delivDate != null">
+        deliv_date,
+      </if>
+      <if test="custName != null">
+        cust_name,
+      </if>
+      <if test="extend1 != null">
+        extend1,
+      </if>
+      <if test="extend2 != null">
+        extend2,
+      </if>
+      <if test="extend3 != null">
+        extend3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="delivNo != null">
+        #{delivNo,jdbcType=INTEGER},
+      </if>
+      <if test="custId != null">
+        #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="prodId != null">
+        #{prodId,jdbcType=INTEGER},
+      </if>
+      <if test="qty != null">
+        #{qty,jdbcType=INTEGER},
+      </if>
+      <if test="unitPrice != null">
+        #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="totAmt != null">
+        #{totAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="zip != null">
+        #{zip,jdbcType=CHAR},
+      </if>
+      <if test="addr != null">
+        #{addr,jdbcType=CHAR},
+      </if>
+      <if test="telNo != null">
+        #{telNo,jdbcType=CHAR},
+      </if>
+      <if test="delivDate != null">
+        #{delivDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="custName != null">
+        #{custName,jdbcType=CHAR},
+      </if>
+      <if test="extend1 != null">
+        #{extend1,jdbcType=VARCHAR},
+      </if>
+      <if test="extend2 != null">
+        #{extend2,jdbcType=VARCHAR},
+      </if>
+      <if test="extend3 != null">
+        #{extend3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nyist.entity.Delivery">
+    update delivery
+    <set>
+      <if test="custId != null">
+        cust_id = #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="prodId != null">
+        prod_id = #{prodId,jdbcType=INTEGER},
+      </if>
+      <if test="qty != null">
+        qty = #{qty,jdbcType=INTEGER},
+      </if>
+      <if test="unitPrice != null">
+        unit_price = #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="totAmt != null">
+        tot_amt = #{totAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="zip != null">
+        zip = #{zip,jdbcType=CHAR},
+      </if>
+      <if test="addr != null">
+        addr = #{addr,jdbcType=CHAR},
+      </if>
+      <if test="telNo != null">
+        tel_no = #{telNo,jdbcType=CHAR},
+      </if>
+      <if test="delivDate != null">
+        deliv_date = #{delivDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="custName != null">
+        cust_name = #{custName,jdbcType=CHAR},
+      </if>
+      <if test="extend1 != null">
+        extend1 = #{extend1,jdbcType=VARCHAR},
+      </if>
+      <if test="extend2 != null">
+        extend2 = #{extend2,jdbcType=VARCHAR},
+      </if>
+      <if test="extend3 != null">
+        extend3 = #{extend3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where deliv_no = #{delivNo,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nyist.entity.Delivery">
+    update delivery
+    set cust_id = #{custId,jdbcType=INTEGER},
+      order_no = #{orderNo,jdbcType=VARCHAR},
+      prod_id = #{prodId,jdbcType=INTEGER},
+      qty = #{qty,jdbcType=INTEGER},
+      unit_price = #{unitPrice,jdbcType=DECIMAL},
+      tot_amt = #{totAmt,jdbcType=DECIMAL},
+      zip = #{zip,jdbcType=CHAR},
+      addr = #{addr,jdbcType=CHAR},
+      tel_no = #{telNo,jdbcType=CHAR},
+      deliv_date = #{delivDate,jdbcType=TIMESTAMP},
+      cust_name = #{custName,jdbcType=CHAR},
+      extend1 = #{extend1,jdbcType=VARCHAR},
+      extend2 = #{extend2,jdbcType=VARCHAR},
+      extend3 = #{extend3,jdbcType=VARCHAR}
+    where deliv_no = #{delivNo,jdbcType=INTEGER}
+  </update>
+
+  <!--根据订单号查找配送单-->
+  <select id="selectByOrderNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from delivery
+    where order_no = #{orderNo,jdbcType=VARCHAR}
+  </select>
+
+
+  <select id="selectByInvoiceNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from delivery
+    where order_no = #{orderNo,jdbcType=VARCHAR}
+  </select>
+
+</mapper>

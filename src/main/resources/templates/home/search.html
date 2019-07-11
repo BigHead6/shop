@@ -1,0 +1,334 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>搜索页面</title>
+    <script th:src="@{/assets/js/jquery.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <link th:href="@{/assets/css/amazeui.css}" href="../AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet"
+          type="text/css"/>
+    <link th:href="@{/assets/css/admin.css}" href="../AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet"
+          type="text/css"/>
+    <link href="../basic/css/demo.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/seastyle.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="../basic/js/jquery-1.7.min.js"></script>
+    <script type="text/javascript" src="../js/script.js"></script>
+</head>
+
+<body>
+
+<!--顶部导航条 -->
+<div th:include="public/pagehead::common"></div>
+
+<!--悬浮搜索框-->
+<div th:include="public/pagehead::search"></div>
+
+
+<div class="clear"></div>
+<b class="line"></b>
+<div class="search">
+    <div class="search-list">
+        <div class="nav-table">
+            <div th:include="public/pagehead::category"></div>
+        </div>
+    </div>
+
+
+    <div class="am-g am-g-fixed">
+        <div class="am-u-sm-12 am-u-md-12">
+           <!-- <div class="theme-popover">
+                <div class="searchAbout">
+                    <span class="font-pale">相关搜索：</span>
+                    <a title="坚果" href="#">坚果</a>
+                    <a title="瓜子" href="#">瓜子</a>
+                    <a title="鸡腿" href="#">豆干</a>
+
+                </div>
+                <ul class="select">
+                    <p class="title font-normal">
+                        <span class="fl">松子</span>
+                        <span class="total fl">搜索到<strong class="num">997</strong>件相关商品</span>
+                    </p>
+                    <div class="clear"></div>
+                    <li class="select-result">
+                        <dl>
+                            <dt>已选</dt>
+                            <dd class="select-no"></dd>
+                            <p class="eliminateCriteria">清除</p>
+                        </dl>
+                    </li>
+                    <div class="clear"></div>
+                    <li class="select-list">
+                        <dl id="select1">
+                            <dt class="am-badge am-round">品牌</dt>
+
+                            <div class="dd-conent">
+                                <dd class="select-all selected"><a href="#">全部</a></dd>
+                                <dd><a href="#">百草味</a></dd>
+                                <dd><a href="#">良品铺子</a></dd>
+                                <dd><a href="#">新农哥</a></dd>
+                                <dd><a href="#">楼兰蜜语</a></dd>
+                                <dd><a href="#">口水娃</a></dd>
+                                <dd><a href="#">考拉兄弟</a></dd>
+                            </div>
+
+                        </dl>
+                    </li>
+                    <li class="select-list">
+                        <dl id="select2">
+                            <dt class="am-badge am-round">种类</dt>
+                            <div class="dd-conent">
+                                <dd class="select-all selected"><a href="#">全部</a></dd>
+                                <dd><a href="#">东北松子</a></dd>
+                                <dd><a href="#">巴西松子</a></dd>
+                                <dd><a href="#">夏威夷果</a></dd>
+                                <dd><a href="#">松子</a></dd>
+                            </div>
+                        </dl>
+                    </li>
+                    <li class="select-list">
+                        <dl id="select3">
+                            <dt class="am-badge am-round">选购热点</dt>
+                            <div class="dd-conent">
+                                <dd class="select-all selected"><a href="#">全部</a></dd>
+                                <dd><a href="#">手剥松子</a></dd>
+                                <dd><a href="#">薄壳松子</a></dd>
+                                <dd><a href="#">进口零食</a></dd>
+                                <dd><a href="#">有机零食</a></dd>
+                            </div>
+                        </dl>
+                    </li>
+
+                </ul>
+                <div class="clear"></div>
+            </div>
+            <div id="zwydiv1" class="search-content">
+                <div class="sort">
+                    <li class="first"><a title="综合">综合排序</a></li>
+                    <li><a title="销量">销量排序</a></li>
+                    <li><a title="价格">价格优先</a></li>
+                    <li class="big"><a title="评价" href="#">评价为主</a></li>
+                </div>
+            </div>-->
+            <div class="clear"></div>
+            <table class="layui-hide" id="zwytest" lay-filter="useruv"></table>
+            <ul id="zwy" class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 ">
+            </ul>
+            <div id="zwydiv" class="search-content">
+
+            </div>
+            <!--经典搭配-->
+            <!--	<div class="search-side">
+
+                    <div class="side-title">
+                        经典搭配
+                    </div>
+
+                    <li>
+                        <div class="i-pic check">
+                            <img src="../images/cp.jpg" />
+                            <p class="check-title">萨拉米 1+1小鸡腿</p>
+                            <p class="price fl">
+                                <b>¥</b>
+                                <strong>29.90</strong>
+                            </p>
+                            <p class="number fl">
+                                销量<span>1110</span>
+                            </p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="i-pic check">
+                            <img src="../images/cp2.jpg" />
+                            <p class="check-title">ZEK 原味海苔</p>
+                            <p class="price fl">
+                                <b>¥</b>
+                                <strong>8.90</strong>
+                            </p>
+                            <p class="number fl">
+                                销量<span>1110</span>
+                            </p>
+                        </div>
+                    </li>
+                </div>-->
+            <div class="clear"></div>
+            <!--分页 -->
+            <!--<ul class="am-pagination am-pagination-right">-->
+            <!--<li class="am-disabled"><a href="#">&laquo;</a></li>-->
+            <!--<li class="am-active"><a href="#">1</a></li>-->
+            <!--<li><a href="#">2</a></li>-->
+            <!--<li><a href="#">3</a></li>-->
+            <!--<li><a href="#">4</a></li>-->
+            <!--<li><a href="#">5</a></li>-->
+            <!--<li><a href="#">&raquo;</a></li>-->
+            <!--</ul>-->
+
+        </div>
+    </div>
+
+    <!-- introduce-->
+    <div th:include="public/pagehead::footer"></div>
+</div>
+
+</div>
+<script type="text/javascript" src="../basic/js/quick_links.js"></script>
+
+<div class="theme-popover-mask"></div>
+<script th:src="@{/layuiadmin/layui/layui.all.js}"></script>
+<script>
+    /*<![CDATA[*/
+    //拿到数据
+    var loc = location.href;
+    var n1 = loc.length;
+    var n2 = loc.indexOf('=');
+    /*console.log('loc='+loc)
+     console.log('n2='+n2)
+     console.log(n1)
+     console.log(loc.substr(n2+1,n1-n2))*/
+    var txt = decodeURI(loc.substr(n2 + 1, n1 - n2));//接收其他页面传来了值
+    // console.log(txt)
+    //其他页面带参跳转参此页面带来的参数
+
+    var testLayPageData;
+    var strings = [];
+
+    var Number;
+    $.ajax({
+        type: 'get',
+        url: 'test',
+        data: {
+            name: txt,
+        },
+        async: false,
+        dataType: 'json',
+        success: function (res) {
+            console.log(res)
+            testLayPageData = res.list;
+            Number = res.total
+            // console.log(res)
+            /*for(var i=0;i<res.list.length;i++){
+             $('#zwydiv').append(
+             '<ul id="qwe" class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 ">' +
+             '</ul>')
+             for (var j=0;j<4;j++){
+             $('#qwe').append('<li > <a href="index">' +
+             '<div class="i-pic limit">' +
+             '<img src="../images/imgsearch1.jpg" />' +
+             '<p class="title fl">手剥松子218g 坚果炒货零食新货巴西松子包邮</p>\n' +
+             '<p class="price fl">' +
+             '<b>¥</b>' +
+             '<strong>56.90</strong>' +
+             '</p>' +
+             '<p class="number fl">' +
+             '销量<span>1110</span>' +
+             '</p>' +
+             '</div>' +
+             '</li></a>')
+             }
+             }*/
+            for (var j = 0; j < res.list.length; j++) {
+                strings.push(' <a href="introduction?id=' + res.list[j].id + '">' +
+                    '<div class="i-pic limit">' +
+
+                    '<img   src="' + res.list[j].image + '" style="width: 302px height: 228px"  />' +
+                    '<p class="title fl">' + res.list[j].prodDesc + '</p>\n' +
+                    '<p class="price fl">' +
+                    '<b>¥</b>' + res.list[j].unitPrice +
+                    '<strong></strong>' +
+                    '</p>' +
+                    '<p class="number fl">' +
+                    '库存<span></span>' + res.list[j].storage +
+                    '</p>' +
+                    '</div>' +
+                    '</a>')
+            }
+        }
+    });
+    ;!function () {
+        //无需再执行layui.use()方法加载模块，直接使用即可
+        var form = layui.form
+            , layer = layui.layer;
+        var $ = layui.$
+            , admin = layui.admin
+            , element = layui.element
+            , layer = layui.layer
+            , laydate = layui.laydate
+            , form = layui.form
+            , laypage = layui.laypage
+            , table = layui.table;
+        form.render();
+        laydate.render();
+        //本页面的搜索
+        $("#ai-topsearch").on('click', function () {
+
+        })
+
+        table.render();
+
+        console.log(strings.length)
+        laypage.render({
+            elem: 'zwydiv'
+            , count: Number
+            , limit: 8
+            , jump: function (obj) {
+                // console.log(123)
+                // console.log(obj)
+                //模拟渲染
+                document.getElementById('zwy').innerHTML = function () {
+                    // console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                    // console.log(obj.limit); //得到每页显示的条数
+                    $.ajax({
+                        type: 'get',
+                        url: 'test',
+                        data: {
+                            pageName: obj.curr, // 当前页
+                            limitName: obj.limit //每页展示的条数
+                        },
+                        async: false,
+                        dataType: 'json',
+                        success: function (res) {
+                            testLayPageData = res.list;
+
+                            Number = res.total
+                            for (var j = 0; j < res.list.length; j++) {
+                                strings.push(' <a href="introduction?id=' + res.list[j].id + '">' +
+                                    '<div class="i-pic limit">' +
+                                    '<img   src="' + res.list[j].image + '" style="width: 302px height: 228px"  />' +
+                                    '<p class="title fl">' + res.list[j].prodDesc + '</p>\n' +
+                                    '<p class="price fl">' +
+                                    '<b>¥</b>' + res.list[j].unitPrice +
+                                    '<strong></strong>' +
+                                    '</p>' +
+                                    '<p class="number fl">' +
+                                    '库存<span></span>' + res.list[j].storage +
+                                    '</p>' +
+                                    '</div>' +
+                                    '</a>')
+                            }
+                        }
+                    });
+                    var arr = []
+                        , thisData = strings.concat().splice(obj.curr * obj.limit - obj.limit, obj.limit);
+                    layui.each(thisData, function (index, item) {
+                        arr.push('<li>' + item + '</li>');
+                    });
+                    return arr.join('');
+                }();
+            }
+        });
+
+    }();
+
+    /*]]>*/
+
+
+</script>
+
+</body>
+
+</html>

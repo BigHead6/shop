@@ -1,0 +1,356 @@
+1.docker CE的安装
+分别用两种不同的安装方法安装docker
+
+
+一、使用安装docker
+1、Docker 要求 CentOS 系统的内核版本高于 3.10 ，查看本页面的前提条件来验证你的CentOS 版本是否支持 Docker 。
+
+通过 uname -r 命令查看你当前的内核版本
+ $ uname -r
+2、使用 root 权限登录 Centos。确保 yum 包更新到最新。
+
+$ sudo yum update
+3、卸载旧版本(如果安装过旧版本的话)
+
+$ sudo yum remove docker  docker-common docker-selinux docker-engine
+4、安装需要的软件包， yum-util 提供yum-config-manager功能，另外两个是devicemapper驱动依赖的
+
+$ sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+5、设置yum源
+
+
+
+$ sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+6、可以查看所有仓库中所有docker版本，并选择特定版本安装
+
+$ yum list docker-ce --showduplicates | sort -r
+7、安装docker
+
+
+$ sudo yum install docker-ce  #由于repo中默认只开启stable仓库，故这里安装的是最新稳定版17.12.0
+$ sudo yum install &lt;FQPN&gt;  # 例如：sudo yum install docker-ce-17.12.0.ce
+1
+2
+$ sudo yum install docker-ce  #由于repo中默认只开启stable仓库，故这里安装的是最新稳定版17.12.0
+$ sudo yum install &lt;FQPN&gt;  # 例如：sudo yum install docker-ce-17.12.0.ce
+
+
+8、启动并加入开机启动
+$ sudo systemctl start docker
+$ sudo systemctl enable docker
+$ sudo systemctl start docker
+$ sudo systemctl enable docker
+9、验证安装是否成功(有client和service两部分表示docker安装启动都成功了)
+
+$ docker version
+
+[root@localhost /]# docker version
+Client:
+ Version:	17.12.0-ce
+ API version:	1.35
+ Go version:	go1.9.2
+ Git commit:	c97c6d6
+ Built:	Wed Dec 27 20:10:14 2017
+ OS/Arch:	linux/amd64
+
+Server:
+ Engine:
+  Version:	17.12.0-ce
+  API version:	1.35 (minimum version 1.12)
+  Go version:	go1.9.2
+  Git commit:	c97c6d6
+  Built:	Wed Dec 27 20:12:46 2017
+  OS/Arch:	linux/amd64
+  Experimental:	false
+
+[root@localhost /]# docker version
+Client:
+ Version:	17.12.0-ce
+ API version:	1.35
+ Go version:	go1.9.2
+ Git commit:	c97c6d6
+ Built:	Wed Dec 27 20:10:14 2017
+ OS/Arch:	linux/amd64
+ 
+Server:
+ Engine:
+  Version:	17.12.0-ce
+  API version:	1.35 (minimum version 1.12)
+  Go version:	go1.9.2
+  Git commit:	c97c6d6
+  Built:	Wed Dec 27 20:12:46 2017
+  OS/Arch:	linux/amd64
+  Experimental:	false
+ 
+docker两种安装方式1、通过系统自带docker软件包安装：ubuntu系统docker软件包：docker.io
+2、通过手动添加docker软件包安装，这两种方式都比较容易，根据教程一步一步做就行
+
+
+1、因为之前已经安装过旧版本的docker，在安装的时候报错如下：
+Transaction check error:
+  file /usr/bin/docker from install of docker-ce-17.12.0.ce-1.el7.centos.x86_64 conflicts with file from package <strong>docker-common-2:1.12.6-68.gitec8512b.el7.centos.x86_64
+  </strong>file /usr/bin/docker-containerd from install of docker-ce-17.12.0.ce-1.el7.centos.x86_64 conflicts with file from package <strong>docker-common-2:1.12.6-68.gitec8512b.el7.centos.x86_64
+  </strong>file /usr/bin/docker-containerd-shim from install of docker-ce-17.12.0.ce-1.el7.centos.x86_64 conflicts with file from package <strong>docker-common-2:1.12.6-68.gitec8512b.el7.centos.x86_64
+  </strong>file /usr/bin/dockerd from install of docker-ce-17.12.0.ce-1.el7.centos.x86_64 conflicts 
+  2、卸载旧版本的包
+$ sudo yum erase docker-common-2:1.12.6-68.gitec8512b.el7.centos.x86_64
+3、再次安装docker
+$ sudo yum install docker-ce
+
+
+
+2.docker镜像的管理
+1.熟悉镜像的基本工作原理；
+2.掌握镜像操作的常用命令；
+3、用两种不同的方法创建一个新的镜像
+4.联系使用镜像的操作的常用命令；
+5，熟练掌握创建新镜像的不同办法；
+
+当运行容器时，使用的镜像如果在本地中不存在，docker 就会自动从 docker 镜像仓库中下载，默认是从 Docker Hub 公共镜像源下载。
+我们可以使用 docker images 来列出本地主机上的镜像。
+同一仓库源可以有多个 TAG，代表这个仓库源的不同个版本，如ubuntu仓库源里，有15.10、14.04等多个不同的版本，我们使用 REPOSITORY:TAG 来定义不同的镜像。
+获取一个新的镜像
+当我们在本地主机上使用一个不存在的镜像时 Docker 就会自动下载这个镜像。如果我们想预先下载这个镜像，我们可以使用 docker pull 命令来下载它。
+查找镜像
+我们可以从 Docker Hub 网站来搜索镜像，Docker Hub 网址为： https://hub.docker.com/
+我们也可以使用 docker search 命令来搜索镜像。比如我们需要一个httpd的镜像来作为我们的web服务。我们可以通过 docker search 命令搜索 httpd 来寻找适合我们的镜像。
+拖取镜像
+我们决定使用上图中的httpd 官方版本的镜像，使用命令 docker pull 来下载镜像。
+创建镜像
+当我们从docker镜像仓库中下载的镜像不能满足我们的需求时，我们可以通过以下两种方式对镜像进行更改。
+
+1.从已经创建的容器中更新镜像，并且提交这个镜像
+2.使用 Dockerfile 指令来创建一个新的镜
+
+更新镜像
+更新镜像之前，我们需要使用镜像来创建一个容器。
+lcy@lcy:~$ docker run -t -i ubuntu:15.10 /bin/bash
+root@e218edb10161:/# 在运行的容器内使用 apt-get update 命令进行更新。
+在完成操作之后，输入 exit命令来退出这个容器。
+
+此时ID为e218edb10161的容器，是按我们的需求更改的容器。我们可以通过命令 docker commit来提交容器副本。
+
+构建镜像
+我们使用命令 docker build ， 从零开始来创建一个新的镜像。为此，我们需要创建一个 Dockerfile 文件，其中包含一组指令来告诉 Docker 如何构建我们的镜像。
+
+设置镜像标签
+我们可以使用 docker tag 命令，为镜像添加一个新的标签。
+
+
+
+
+docker镜像使用
+1.列出镜像列表
+2.获取一个新的镜像
+3.查找镜像
+4.拖取镜像
+5.创建镜像
+6.更新镜像
+7.构建镜像
+8.设置镜像标签
+
+
+
+1.使用dockerfile来构建镜像
+runoob@runoob:~$ cat Dockerfile 
+FROM    centos:6.7
+MAINTAINER      Fisher "fisher@sudops.com"
+
+RUN     /bin/echo 'root:123456' |chpasswd
+RUN     useradd runoob
+RUN     /bin/echo 'runoob:123456' |chpasswd
+RUN     /bin/echo -e "LANG=\"en_US.UTF-8\"" >/etc/default/local
+EXPOSE  22
+EXPOSE  80
+CMD     /usr/sbin/sshd -D
+
+2.在docker镜像仓库里面下载镜像
+我们可以使用 docker images 来列出本地主机上的镜像。
+当我们在本地主机上使用一个不存在的镜像时 Docker 就会自动下载这个镜像。如果我们想预先下载这个镜像，我们可以使用 docker pull 命令来下载它。
+
+3.docker容器管理
+1.熟悉容器得基本工作原理，
+2.掌握容器操作的常用命令
+3、联系使用容器操作的常用命令
+
+
+1.查看Docker服务是否正常
+执行如下命令后，我们可以看到Docker的一些基本信息，包括容器、镜像的数量，执行与存储驱动以及Docker的基本配置等。
+运行容器
+
+2.使用docker run命令来创建容器。
+sudo docker run -i -t ubuntu /bin/bash
+3.使用容器
+在执行完刚才的命令后，我们已经以root用户进入到了新容器中。 该容器可以认为是一个完整的ubuntu系统，可以正常使用
+4.容器命名
+我们已经提到了每个容器都有其对应的一个名称。 默认情况下，如果没有指定容器名称，系统将会自动随机生成一个唯一的名称。 当然，我们也可以直接来指定容器的名称，此时，使用--name 容器名来实现。
+
+5.启动已停止的容器
+当一个容器已经停止后，我们可以使用docker start命令来重新启动该容器。
+
+6.进行容器内部命令行
+在我们重新启动容器后，将会继续沿用之前docker run运行时的参数来运行。
+但是，此时我们并没有直接进入到交互式shell的环境。 需要再次执行如下命令才能进行到交互式shell的环境：
+7.创建守护式容器
+在之前的内容中，我们主要讲解了如何创建一个交互式的环境。 还有更多的时候，我们可以期望是创建一个长期运行的容器。对于此类容器，我们称之为守护式容器，它们没有交互式会话，非常适合应用程序和服务运行。
+8.查看容器日志
+那么我们如何看这些守护式容器的日志呢？ Docker本身提供了docker logs用于日志查询。
+
+9.查看容器内进程
+
+除了查看容器的日志外，我们还可以查看容器的进程信息。 docker top是用于查询容器内进行相关的信息。
+docker top nianshi_test1
+
+
+10.在容器内运行进程
+在Docker1.3版本以后，我们可以通过docker exec命令在容器内额外启动新进程。
+
+11.删除容器
+当一个容器已经使用完成且后续不会继续使用时，我们可以使用docker rm命令来删除它们。
+
+如果要删除一个正在运行的容器，可以添加-f选项强制删除，但建议先将容器停止再做删除操作。
+
+
+
+4.数据卷管理和容器互联
+1.熟悉数据卷的基本工作原理
+2.掌握数据卷操作的常用命令
+3熟悉数据卷容器的基本工作原理
+见附件
+
+
+
+1.在容器内创建一个数据卷
+
+在用docker run命令的时候，使用-v标记可以在容器内创建一个数据卷。多次重复使用-v标记可以创建多个数据卷。
+
+下面使用training/webapp镜像创建一个web容器，并创建一个数据卷挂载到容器的/webapp目录：
+
+$ docker run -d -P --name web -v /webapp training/webapp python app.py
+
+-P是将容器服务暴露的端口，是自动映射到本地主机的临时端口。
+
+2.挂载一个主机目录作为数据卷
+
+使用-v标记也可以指定挂载一个本地的已有目录到容器中去作为数据卷（推荐方式）。
+
+$ docker run -d -P --name web -v /src/webapp:/opt/webapp training/webapp python app.py
+
+上面的命令加载主机的/src/webapp目录到容器的/opt/webapp目录。
+
+这个功能在进行测试的时候十分方便，比如用户可以将一些程序或数据放到本地目录中，然后在容器内运行和使用。另外，本地目录的路径必须是绝对路径，如果目录不存在,Docker会自动创建。
+
+Docker挂载数据卷的默认权限是读写（rw），用户也可以通过ro指定为只读：
+
+$ docker run -d -P --name web -v /src/webapp:/opt/webapp:ro training/webapp python app.py
+
+加了:ro之后，容器内对所挂载数据卷内的数据就无法修改了。
+
+3.挂载一个本地主机文件作为数据卷
+
+-v标记也可以从主机挂载单个文件到容器中作为数据卷（不推荐）。
+
+$ docker run --rm -it -v ~/.bash_history:/.bash_history ubuntu /bin/bash
+
+这样就可以记录在容器输入过的命令历史了。
+
+如果直接挂载一个文件到容器，使用文件编辑工具，包括vi或者sed--in-place的时候，可能会造成文件inode的改变，从Docker 1.1.0起，这会导致报错误信息。所以推荐的方式是直接挂载文件所在的目录。
+
+
+
+1.在本地主机创建一个目录,并写入一些数据,来模拟本地数据.
+
+[root@localhost ~]# mkdir /data
+[root@localhost ~]# echo "hello mkdirs.com" > /data/index.html
+2.开启容器,并让容器读取本地的/data目录.
+
+[root@localhost ~]# docker run -d -p 8080:80 --name MyWeb -v /data:/usr/local/apache2/htdocs httpd:latest
+2882b3edda42fe153a897d3dc21f73835eb57c14019b5e810066c34e0eda4c0c
+
+[参数解释]
+
+    -d     #以守护进程运行
+    -p     #将容器中的80口,映射到本地主机的8080
+    --name #指定一个容器名称
+    -v     #上面指的是,将本地/data目录挂载得到容器中的/usr/local目录中.
+    -P     #是将容器服务暴露的端口,是自动映射到本地主机的临时端口.
+
+
+[root@localhost ~]# curl 127.0.0.1:8080
+hello mkdirs.com
+
+主要理解数据卷的基本原理，创建数据卷和，挂载一个主机目录作为数据卷，与数据卷容器，利用数据卷来迁移数据，用来恢复和备份数据
+
+
+
+
+
+
+
+5.docker综合实验
+1.熟悉docker-compose的基本工作原理，
+2.熟悉docker-compose安装
+3.熟悉docker compose的配置文件
+
+
+Compose 项目是 Docker 官方的开源项目，负责实现对 Docker 容器集群的快速编排。Compose 定位是 「定义和运行多个 Docker 容器的应用（Defining and running multicontainer Docker applications）」，其前身是开源项目 Fig。
+
+使用一个 Dockerfile 模板文件，可以让用户很方便的定义一个单独的应用容器。然而，在日常工作中，经常会碰到需要多个容器相互配合来完成某项任务的情况。例如要实现一个 Web 项目，除了 Web 服务容器本身，往往还需要再加上后端的数据库服务容器，甚至还包括负载均衡容器等。
+
+Compose 恰好满足了这样的需求。它允许用户通过一个单独的 docker-compose.yml 模板文件（YAML 格式）来定义一组相关联的应用容器为一个项目（project）。
+
+Compose 中有两个重要的概念：
+
+服务 ( service )：一个应用的容器，实际上可以包括若干运行相同镜像的容器实例
+项目 ( project )：由一组关联的应用容器组成的一个完整业务单元，在 dockercompose.yml 文件中定义。
+Compose 的默认管理对象是项目，通过子命令对项目中的一组容器进行便捷地生命周期管理。可见，一个项目可以由多个服务（容器）关联而成， Compose 面向项目进行管理
+
+Compose 项目由 Python 编写，实现上调用了 Docker 服务提供的 API 来对容器进行管理。因此，只要所操作的平台支持 Docker API，就可以在其上利用 Compose 来进行编排管理。
+
+安装
+Compose 可以通过 Python 的包管理工具 pip 进行安装，也可以直接下载编译好的二进制文件使用，甚至能够直接在 Docker 容器中运行。前两种方式是传统方式，适合本地环境下安装使用；最后一种方式则不破坏系统环境，更适合云计算场景。Docker for Mac 、 Docker for Windows 自带 docker-compose 二进制文件，安装 Docker 之后可以直接使用。Linux 系统请使用以下介绍的方法安装。
+
+
+
+
+version: '2'
+services:
+  web:
+    image: dockercloud/hello-world
+    ports:
+      - 8080
+    networks:
+      - front-tier
+      - back-tier
+ 
+  redis:
+    image: redis
+    links:
+      - web
+    networks:
+      - back-tier
+ 
+  lb:
+    image: dockercloud/haproxy
+    ports:
+      - 80:80
+    links:
+      - web
+    networks:
+      - front-tier
+      - back-tier
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock 
+ 
+networks:
+  front-tier:
+    driver: bridge
+  back-tier:
+driver: bridge
+
+
+
+
+升级pip组件的错误: There was a problem confirming the ssl certificate: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:590)，解决方式是使用如下命令安装：
+
+sudo pip install -U docker-compose --trusted-host pypi.python.org

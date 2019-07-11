@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nyist.dao.CompanyMapper">
+  <resultMap id="BaseResultMap" type="com.nyist.entity.Company">
+    <id column="sup_no" jdbcType="INTEGER" property="supNo" />
+    <result column="sup_name" jdbcType="CHAR" property="supName" />
+    <result column="flag" jdbcType="VARCHAR" property="flag" />
+    <result column="extend2" jdbcType="VARCHAR" property="extend2" />
+    <result column="extend3" jdbcType="VARCHAR" property="extend3" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    sup_no, sup_name, flag, extend2, extend3
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from company
+    where sup_no = #{supNo,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from company
+    where sup_no = #{supNo,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.nyist.entity.Company">
+    insert into company (sup_no, sup_name, flag,
+      extend2, extend3)
+    values (#{supNo,jdbcType=INTEGER}, #{supName,jdbcType=CHAR}, #{flag,jdbcType=VARCHAR},
+      #{extend2,jdbcType=VARCHAR}, #{extend3,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nyist.entity.Company">
+    insert into company
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="supNo != null">
+        sup_no,
+      </if>
+      <if test="supName != null">
+        sup_name,
+      </if>
+      <if test="flag != null">
+        flag,
+      </if>
+      <if test="extend2 != null">
+        extend2,
+      </if>
+      <if test="extend3 != null">
+        extend3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="supNo != null">
+        #{supNo,jdbcType=INTEGER},
+      </if>
+      <if test="supName != null">
+        #{supName,jdbcType=CHAR},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="extend2 != null">
+        #{extend2,jdbcType=VARCHAR},
+      </if>
+      <if test="extend3 != null">
+        #{extend3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nyist.entity.Company">
+    update company
+    <set>
+      <if test="supName != null">
+        sup_name = #{supName,jdbcType=CHAR},
+      </if>
+      <if test="flag != null">
+        flag = #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="extend2 != null">
+        extend2 = #{extend2,jdbcType=VARCHAR},
+      </if>
+      <if test="extend3 != null">
+        extend3 = #{extend3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where sup_no = #{supNo,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nyist.entity.Company">
+    update company
+    set sup_name = #{supName,jdbcType=CHAR},
+      flag = #{flag,jdbcType=VARCHAR},
+      extend2 = #{extend2,jdbcType=VARCHAR},
+      extend3 = #{extend3,jdbcType=VARCHAR}
+    where sup_no = #{supNo,jdbcType=INTEGER}
+  </update>
+
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from company
+    where flag=1
+  </select>
+
+  <select id="selectByName" parameterType="string" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from company
+    where sup_name = #{supName,jdbcType=CHAR}
+  </select>
+</mapper>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nyist.dao.SaleItemMapper">
+  <resultMap id="BaseResultMap" type="com.nyist.entity.SaleItem">
+    <id column="order_no" jdbcType="INTEGER" property="orderNo" />
+    <result column="prod_id" jdbcType="INTEGER" property="prodId" />
+    <result column="unit_price" jdbcType="DECIMAL" property="unitPrice" />
+    <result column="dis_price" jdbcType="DECIMAL" property="disPrice" />
+    <result column="qty" jdbcType="INTEGER" property="qty" />
+    <result column="order_date" jdbcType="TIMESTAMP" property="orderDate" />
+    <result column="invoice_no" jdbcType="VARCHAR" property="invoiceNo" />
+    <result column="extend2" jdbcType="VARCHAR" property="extend2" />
+    <result column="extend3" jdbcType="VARCHAR" property="extend3" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    order_no, prod_id, unit_price, dis_price, qty, order_date, invoice_no, extend2, extend3
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sale_item
+    where order_no = #{orderNo,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sale_item
+    where order_no = #{orderNo,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.nyist.entity.SaleItem">
+    insert into sale_item (order_no, prod_id, unit_price,
+      dis_price, qty, order_date,
+      invoice_no, extend2, extend3
+      )
+    values (#{orderNo,jdbcType=INTEGER}, #{prodId,jdbcType=INTEGER}, #{unitPrice,jdbcType=DECIMAL},
+      #{disPrice,jdbcType=DECIMAL}, #{qty,jdbcType=INTEGER}, #{orderDate,jdbcType=TIMESTAMP},
+      #{invoiceNo,jdbcType=VARCHAR}, #{extend2,jdbcType=VARCHAR}, #{extend3,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.nyist.entity.SaleItem">
+    insert into sale_item
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="prodId != null">
+        prod_id,
+      </if>
+      <if test="unitPrice != null">
+        unit_price,
+      </if>
+      <if test="disPrice != null">
+        dis_price,
+      </if>
+      <if test="qty != null">
+        qty,
+      </if>
+      <if test="orderDate != null">
+        order_date,
+      </if>
+      <if test="invoiceNo != null">
+        invoice_no,
+      </if>
+      <if test="extend2 != null">
+        extend2,
+      </if>
+      <if test="extend3 != null">
+        extend3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=INTEGER},
+      </if>
+      <if test="prodId != null">
+        #{prodId,jdbcType=INTEGER},
+      </if>
+      <if test="unitPrice != null">
+        #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="disPrice != null">
+        #{disPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="qty != null">
+        #{qty,jdbcType=INTEGER},
+      </if>
+      <if test="orderDate != null">
+        #{orderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invoiceNo != null">
+        #{invoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="extend2 != null">
+        #{extend2,jdbcType=VARCHAR},
+      </if>
+      <if test="extend3 != null">
+        #{extend3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nyist.entity.SaleItem">
+    update sale_item
+    <set>
+      <if test="prodId != null">
+        prod_id = #{prodId,jdbcType=INTEGER},
+      </if>
+      <if test="unitPrice != null">
+        unit_price = #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="disPrice != null">
+        dis_price = #{disPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="qty != null">
+        qty = #{qty,jdbcType=INTEGER},
+      </if>
+      <if test="orderDate != null">
+        order_date = #{orderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invoiceNo != null">
+        invoice_no = #{invoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="extend2 != null">
+        extend2 = #{extend2,jdbcType=VARCHAR},
+      </if>
+      <if test="extend3 != null">
+        extend3 = #{extend3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where order_no = #{orderNo,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nyist.entity.SaleItem">
+    update sale_item
+    set prod_id = #{prodId,jdbcType=INTEGER},
+      unit_price = #{unitPrice,jdbcType=DECIMAL},
+      dis_price = #{disPrice,jdbcType=DECIMAL},
+      qty = #{qty,jdbcType=INTEGER},
+      order_date = #{orderDate,jdbcType=TIMESTAMP},
+      invoice_no = #{invoiceNo,jdbcType=VARCHAR},
+      extend2 = #{extend2,jdbcType=VARCHAR},
+      extend3 = #{extend3,jdbcType=VARCHAR}
+    where order_no = #{orderNo,jdbcType=INTEGER}
+  </update>
+
+  <select id="findAll" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sale_item
+    where invoice_no = #{invoiceNo,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectProdByInvoiceNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sale_item
+    where invoice_no = #{invoiceNo,jdbcType=VARCHAR}
+  </select>
+
+
+  <select id="selectProdByInvoiceNo1" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sale_item
+    where invoice_no = #{invoiceNo,jdbcType=VARCHAR}
+  </select>
+
+</mapper>

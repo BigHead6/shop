@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nyist.dao.SysAuthorityQuestionMapper">
+  <resultMap id="BaseResultMap" type="com.nyist.entity.SysAuthorityQuestion">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="authority_id" jdbcType="INTEGER" property="authorityId" />
+    <result column="authority_name" jdbcType="VARCHAR" property="authorityName" />
+    <result column="question1" jdbcType="VARCHAR" property="question1" />
+    <result column="question2" jdbcType="VARCHAR" property="question2" />
+    <result column="question3" jdbcType="VARCHAR" property="question3" />
+    <result column="answer1" jdbcType="VARCHAR" property="answer1" />
+    <result column="answer2" jdbcType="VARCHAR" property="answer2" />
+    <result column="answer3" jdbcType="VARCHAR" property="answer3" />
+    <result column="flag" jdbcType="VARCHAR" property="flag" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="extend1" jdbcType="VARCHAR" property="extend1" />
+    <result column="extend2" jdbcType="VARCHAR" property="extend2" />
+    <result column="extend3" jdbcType="VARCHAR" property="extend3" />
+    <result column="extend4" jdbcType="VARCHAR" property="extend4" />
+    <result column="extend5" jdbcType="VARCHAR" property="extend5" />
+    <result column="extend6" jdbcType="VARCHAR" property="extend6" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, authority_id, authority_name, question1, question2, question3, answer1, answer2, 
+    answer3, flag, status, updatetime, extend1, extend2, extend3, extend4, extend5, extend6
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_authority_question
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_authority_question
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.nyist.entity.SysAuthorityQuestion">
+    insert into sys_authority_question (id, authority_id, authority_name, 
+      question1, question2, question3, 
+      answer1, answer2, answer3, 
+      flag, status, updatetime, 
+      extend1, extend2, extend3, 
+      extend4, extend5, extend6
+      )
+    values (#{id,jdbcType=INTEGER}, #{authorityId,jdbcType=INTEGER}, #{authorityName,jdbcType=VARCHAR}, 
+      #{question1,jdbcType=VARCHAR}, #{question2,jdbcType=VARCHAR}, #{question3,jdbcType=VARCHAR}, 
+      #{answer1,jdbcType=VARCHAR}, #{answer2,jdbcType=VARCHAR}, #{answer3,jdbcType=VARCHAR}, 
+      #{flag,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{extend1,jdbcType=VARCHAR}, #{extend2,jdbcType=VARCHAR}, #{extend3,jdbcType=VARCHAR}, 
+      #{extend4,jdbcType=VARCHAR}, #{extend5,jdbcType=VARCHAR}, #{extend6,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.nyist.entity.SysAuthorityQuestion">
+    insert into sys_authority_question
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="authorityId != null">
+        authority_id,
+      </if>
+      <if test="authorityName != null">
+        authority_name,
+      </if>
+      <if test="question1 != null">
+        question1,
+      </if>
+      <if test="question2 != null">
+        question2,
+      </if>
+      <if test="question3 != null">
+        question3,
+      </if>
+      <if test="answer1 != null">
+        answer1,
+      </if>
+      <if test="answer2 != null">
+        answer2,
+      </if>
+      <if test="answer3 != null">
+        answer3,
+      </if>
+      <if test="flag != null">
+        flag,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="updatetime != null">
+        updatetime,
+      </if>
+      <if test="extend1 != null">
+        extend1,
+      </if>
+      <if test="extend2 != null">
+        extend2,
+      </if>
+      <if test="extend3 != null">
+        extend3,
+      </if>
+      <if test="extend4 != null">
+        extend4,
+      </if>
+      <if test="extend5 != null">
+        extend5,
+      </if>
+      <if test="extend6 != null">
+        extend6,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="authorityId != null">
+        #{authorityId,jdbcType=INTEGER},
+      </if>
+      <if test="authorityName != null">
+        #{authorityName,jdbcType=VARCHAR},
+      </if>
+      <if test="question1 != null">
+        #{question1,jdbcType=VARCHAR},
+      </if>
+      <if test="question2 != null">
+        #{question2,jdbcType=VARCHAR},
+      </if>
+      <if test="question3 != null">
+        #{question3,jdbcType=VARCHAR},
+      </if>
+      <if test="answer1 != null">
+        #{answer1,jdbcType=VARCHAR},
+      </if>
+      <if test="answer2 != null">
+        #{answer2,jdbcType=VARCHAR},
+      </if>
+      <if test="answer3 != null">
+        #{answer3,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extend1 != null">
+        #{extend1,jdbcType=VARCHAR},
+      </if>
+      <if test="extend2 != null">
+        #{extend2,jdbcType=VARCHAR},
+      </if>
+      <if test="extend3 != null">
+        #{extend3,jdbcType=VARCHAR},
+      </if>
+      <if test="extend4 != null">
+        #{extend4,jdbcType=VARCHAR},
+      </if>
+      <if test="extend5 != null">
+        #{extend5,jdbcType=VARCHAR},
+      </if>
+      <if test="extend6 != null">
+        #{extend6,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nyist.entity.SysAuthorityQuestion">
+    update sys_authority_question
+    <set>
+      <if test="authorityId != null">
+        authority_id = #{authorityId,jdbcType=INTEGER},
+      </if>
+      <if test="authorityName != null">
+        authority_name = #{authorityName,jdbcType=VARCHAR},
+      </if>
+      <if test="question1 != null">
+        question1 = #{question1,jdbcType=VARCHAR},
+      </if>
+      <if test="question2 != null">
+        question2 = #{question2,jdbcType=VARCHAR},
+      </if>
+      <if test="question3 != null">
+        question3 = #{question3,jdbcType=VARCHAR},
+      </if>
+      <if test="answer1 != null">
+        answer1 = #{answer1,jdbcType=VARCHAR},
+      </if>
+      <if test="answer2 != null">
+        answer2 = #{answer2,jdbcType=VARCHAR},
+      </if>
+      <if test="answer3 != null">
+        answer3 = #{answer3,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        flag = #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extend1 != null">
+        extend1 = #{extend1,jdbcType=VARCHAR},
+      </if>
+      <if test="extend2 != null">
+        extend2 = #{extend2,jdbcType=VARCHAR},
+      </if>
+      <if test="extend3 != null">
+        extend3 = #{extend3,jdbcType=VARCHAR},
+      </if>
+      <if test="extend4 != null">
+        extend4 = #{extend4,jdbcType=VARCHAR},
+      </if>
+      <if test="extend5 != null">
+        extend5 = #{extend5,jdbcType=VARCHAR},
+      </if>
+      <if test="extend6 != null">
+        extend6 = #{extend6,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nyist.entity.SysAuthorityQuestion">
+    update sys_authority_question
+    set authority_id = #{authorityId,jdbcType=INTEGER},
+      authority_name = #{authorityName,jdbcType=VARCHAR},
+      question1 = #{question1,jdbcType=VARCHAR},
+      question2 = #{question2,jdbcType=VARCHAR},
+      question3 = #{question3,jdbcType=VARCHAR},
+      answer1 = #{answer1,jdbcType=VARCHAR},
+      answer2 = #{answer2,jdbcType=VARCHAR},
+      answer3 = #{answer3,jdbcType=VARCHAR},
+      flag = #{flag,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      extend1 = #{extend1,jdbcType=VARCHAR},
+      extend2 = #{extend2,jdbcType=VARCHAR},
+      extend3 = #{extend3,jdbcType=VARCHAR},
+      extend4 = #{extend4,jdbcType=VARCHAR},
+      extend5 = #{extend5,jdbcType=VARCHAR},
+      extend6 = #{extend6,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>

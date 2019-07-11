@@ -1,0 +1,149 @@
+<!--编辑用户信息页面-->
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head >
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--静态路径-->
+     <link rel="stylesheet" type="text/css" href="../../static/layuiadmin/layui/css/layui.css" media="all">
+     <link rel="stylesheet" type="text/css" href="../../static/layuiadmin/style/admin.css" media="all">
+     <script type="text/javascript" src="../../static/layuiadmin/layui/layui.js"></script>
+    <link rel="stylesheet" type="text/css"th:href="@{/layuiadmin/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" type="text/css" th:href="@{/layuiadmin/style/admin.css}" media="all">
+    <script type="text/javascript" th:src="@{/layuiadmin/layui/layui.js}"></script>
+    <style>
+        .allView{
+            text-align: center;
+            font-size: 2em;
+            line-height: 160px;
+            color: #57a88b;
+
+            border-radius: 5px;
+        }
+        .distance{
+            border: 1px solid #e29f2a;
+            margin-top: 20px;
+            font-size: 1em;
+            text-align: center;
+            color: #070000;
+        }
+        .top{
+
+            margin-top: -5%;
+        }
+        .text{
+            background-color: rgb(255, 255, 251);
+        }
+        hr{
+            width: 80%;
+        }
+        .p_hr{
+            margin-top: 15px;
+        }
+        .right-text{
+            text-align: center;
+            margin-left: 20%;
+            color: red;
+        }
+        form span{
+            color: red;
+        }
+
+    </style>
+
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">用户信息</div>
+                <div class="layui-card-body">
+                    <form class="layui-form" action="" >
+                                <div class="layui-form-item layui-row">
+                                    <label class="layui-col-md1 layui-col-md-offset3 layui-col-sm2 layui-col-sm-offset1"><span class="red">*</span>用户名</label>
+                                    <div class="layui-col-md3 layui-col-sm3 ">
+                                        <input value="" type="text" name="name" autocomplete="off" class="layui-input " lay-verify="required|name|safe2">
+                                    </div>
+
+
+                                </div>
+
+                                <div class="layui-form-item layui-row">
+                                    <label class="layui-col-md1 layui-col-md-offset3 layui-col-sm2 layui-col-sm-offset1"><span class="red">*</span>用户账号</label>
+                                    <div class="layui-col-md3 layui-col-sm3">
+                                        <input type="text" value="" name="custName" autocomplete="off" class="layui-input" lay-verify="required|ip|startip" >
+
+                                    </div>
+                                </div>
+                                <div class="layui-form-item layui-row">
+                                    <label class="layui-col-md1 layui-col-md-offset3 layui-col-sm2 layui-col-sm-offset1"><span class="red">*</span>性别</label>
+                                    <div class="layui-col-md3 layui-col-sm3">
+                                        <input type="text" value="" name="sex" autocomplete="off" class="layui-input" lay-verify="required|ip|startip" >
+
+                                    </div>
+                                </div>
+                                <div class="layui-form-item layui-row">
+                                    <label class="layui-col-md1 layui-col-md-offset3 layui-col-sm2 layui-col-sm-offset1"><span class="red">*</span>用户等级</label>
+                                    <div class="layui-col-md3 layui-col-sm3 ">
+                                        <input type="text" value="" name="custLevel" disabled autocomplete="off" class="layui-input" lay-verify="required|ip|endip" >
+
+                                    </div>
+                                </div>
+
+                                <div class="layui-form-item layui-row">
+                                    <label class="layui-col-md1 layui-col-md-offset3 layui-col-sm2 layui-col-sm-offset1"><span class="red">*</span>用户手机号</label>
+                                    <div class="layui-col-md3 layui-col-sm3">
+                                        <input type="text" value="" name="telNo" autocomplete="off" class="layui-input" lay-verify="required|ip|endip" >
+                                    </div>
+                                </div>
+                                <div class="layui-form-item layui-row">
+                                    <label class="layui-col-md1 layui-col-md-offset3 layui-col-sm2 layui-col-sm-offset1"><span class="red">*</span>用户邮编</label>
+                                    <div class="layui-col-md3 layui-col-sm3 ">
+                                        <input type="text" value="" name="zip" autocomplete="off" class="layui-input" lay-verify="required|ip|endip" >
+                                    </div>
+                                </div>
+
+                                <div class="layui-form-item hr-row layui-row">
+                                    <div class="layui-col-md10 layui-col-md-offset1 layui-col-sm10 layui-col-sm-offset1"></div>
+                                </div>
+                                <div class="layui-form-item layui-row">
+                                    <div class="layui-col-md6 layui-col-md-offset4 layui-col-sm6  layui-col-sm-offset3">
+                                        <button class="layui-btn" lay-submit lay-filter="form"><i class="layui-icon">&#xe605;</i> 保存</button>
+                                        <button type="reset" class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe65c;</i> 返回</button>
+                                    </div>
+                                </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['element','jquery','form'] ,function(){
+        var element = layui.element,
+            table = layui.table,
+            form = layui.form,
+            $= layui.$
+        ;
+        form.on('submit(form)',function (obj) {
+            var data = obj.field;
+            $.ajax({
+                type:'post',
+                async:false,
+                url:'',
+                data:data,
+                dataType:'json',
+                success:function (res) {
+                    
+                }
+            })
+            console.log(data)
+            return false;
+        })
+
+    });
+</script>
+</body>
+</html>

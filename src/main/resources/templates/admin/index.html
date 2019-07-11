@@ -1,0 +1,239 @@
+<!--后台首页面-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>在线购物后台管理</title>
+    <script th:src="@{/layuiadmin/layui/layui.all.js}">  </script>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<!--静态时引入-->
+    <!--<link rel="stylesheet" type="text/css" href="../../static/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" type="text/css" href="../../static/layuiadmin/style/admin.css" media="all">
+    <script type="text/javascript" src="../../static/layuiadmin/layui/layui.js"></script>-->
+    <link rel="stylesheet" type="text/css"th:href="@{/layuiadmin/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" type="text/css" th:href="@{/layuiadmin/style/admin.css}" media="all">
+    <script type="text/javascript" th:src="@{/layuiadmin/layui/layui.js}"></script>
+    <style>
+        .layui-layout-admin .layui-layout-right {
+            padding: 0 10px;
+        }
+        .fa-sign-out {
+            font-size: 18px;
+            color: #3F3F3F;
+        }
+        .layui-side-menu .layui-nav {
+            margin-top: 0px !important;
+        }
+        .layadmin-iframe {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 49px !important;
+            right: 0;
+            bottom: 0;
+        }
+
+        img{
+            transform:scale(0.40);//设置缩放比例
+        -ms-transform:scale(0..40);
+            -webkit-transform:scale(0.40);
+            -o-transform:scale(0.40);
+            -moz-transform:scale(0.40);
+            position: relative;
+            top: -28px;
+        }
+
+    </style>
+    <script>
+        /^http(s*):\/\//.test(location.href) || alert('请先部署到 localhost 下再访问');
+    </script>
+</head>
+
+<body class="layui-layout-body">
+<div style="background: rgb(32, 34, 42);height: 49px;line-height: 49px;color: #fff;font-size: 18px;vertical-align:middle;z-index:999999;text-align: center;">
+    <span id="proName"><img src="" alt=""></span>
+</div>
+<div id="LAY_app" style="margin-top: 49px;">
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header"  style="margin-top: 49px;">
+            <!-- 头部区域 -->
+            <ul class="layui-nav layui-layout-left">
+                <li class="layui-nav-item layadmin-flexible" lay-unselect>
+                    <a href="javascript:;" layadmin-event="flexible" title="侧边伸缩">
+                        <i class="layui-icon layui-icon-shrink-right" id="LAY_app_flexible"></i>
+                    </a>
+                </li>
+                <!--<li class="layui-nav-item layui-hide-xs" lay-unselect>
+                    <a href="http://www.layui.com/admin/" target="_blank" title="前台">
+                        <i class="layui-icon layui-icon-website"></i>
+                    </a>
+                </li>-->
+                <li class="layui-nav-item" lay-unselect>
+                    <a href="javascript:;" layadmin-event="refresh" title="刷新">
+                        <i class="layui-icon layui-icon-refresh-3"></i>
+                    </a>
+                </li>
+            </ul>
+
+            <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
+                <li class="layui-nav-item" lay-unselect>
+                    <a href="javascript:;">
+                        <cite th:text="${session.sysAuthority.getUsername()}">管理员</cite>
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="">修改密码</a></dd>
+                        <hr>
+                        <dd  style="text-align: center;"><a href="">密保问题</a></dd>
+                        <hr>
+                        <dd style="text-align: center;"><a href="logout1">退出登录</a></dd>
+                    </dl>
+
+                </li>
+
+            </ul>
+        </div>
+
+        <!-- 侧边菜单 -->
+        <div class="layui-side layui-side-menu"  style="margin-top: 49px;">
+            <div class="layui-side-scroll">
+                <!--<div class="layui-logo" lay-href="">-->
+                <!--<span>#(projectName)</span>-->
+                <!--</div>-->
+
+                <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu" lay-filter="layadmin-system-side-menu">
+                    <li data-name="home" class="layui-nav-item">
+                        <a href="" lay-tips="312" lay-direction="2">
+                            <i class="213 layui-icon layui-icon-home">&nbsp;&nbsp;&nbsp;主页 </i>
+                            <!--  <cite></cite>-->
+                        </a>
+                    </li>
+                    <li data-name="home" class="layui-nav-item">
+                        <a href="javascript:;" lay-tips="312" lay-direction="2">
+                            <i class="213 layui-icon layui-icon-template-1" >&nbsp;&nbsp;&nbsp;商品</i>
+                          <!--  <cite></cite>-->
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd><a class="iframe_link "  href="shopList" >商品列表</a></dd>
+                            <dd><a class="iframe_link" href="classify">商品分类</a></dd>
+                            <dd><a class="iframe_link" href="Warehouse">品牌管理</a></dd>
+                        </dl>
+                    </li>
+                    <li data-name="home" class="layui-nav-item">
+                        <a href="javascript:;" lay-tips="312" lay-direction="2">
+                            <i class="213 layui-icon layui-icon-list ">&nbsp;&nbsp;&nbsp;订单</i>
+                            <cite></cite>
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd><a class="iframe_link" href="orderList">订单列表</a></dd>
+                           <!-- <dd><a class="iframe_link" href="test%202.html">订单设置</a></dd>-->
+                            <dd><a class="iframe_link" href="returnGoods">退货申请处理</a></dd>
+                        <!--    <dd><a class="iframe_link" href="test%202.html">退货原因设置</a></dd>-->
+                        </dl>
+
+                    </li>
+                    <li data-name="home" class="layui-nav-item">
+                        <a href="javascript:;" lay-tips="312" lay-direction="2">
+                            <i class="213 layui-icon layui-icon-cart">&nbsp;&nbsp;&nbsp;营销</i>
+                            <cite></cite>
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd><a class="iframe_link" href="marketing">营销方式</a></dd>
+                        </dl>
+
+                    </li>
+                    <li data-name="home" class="layui-nav-item">
+                        <a href="javascript:;" lay-tips="312" lay-direction="2">
+                            <i class="213 layui-icon layui-icon-username">&nbsp;&nbsp;&nbsp;用户</i>
+                            <cite></cite>
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd><a class="iframe_link" href="userInformation">用户信息</a></dd>
+                        </dl>
+
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+
+        <!-- 主体内容  用iframe框架实现 -->
+        <div class="layui-body" id="LAY_app_body">
+            <div class="layadmin-tabsbody-item layui-show">
+                <iframe th:src="index4" frameborder="0" class="layadmin-iframe" id="layadmin-iframe"></iframe>
+            </div>
+        </div>
+
+        <!-- 辅助元素，一般用于移动设备下遮罩 -->
+        <div class="layadmin-body-shade" layadmin-event="shade"></div>
+    </div>
+</div>
+<!--<script type="text/javascript" src="#(ctxStatic)/common/plugin/jquery/jquery.min.js"></script>-->
+
+
+<script>
+    layui.config({
+        base: '/layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index','jquery'],function(){
+        var $ = layui.$,
+            layer = layui.layer,
+            admin = layui.admin,
+            element = layui.element,
+            table = layui.table,
+            router = layui.router();
+        element.render();
+        console.log('success')
+
+       /* $.ajax({
+            url:"#(ctx)/logout/reflash",
+            async:false,                //必须采用同步方法
+            // success:function () {
+            //     console.log("成功");
+            // layer.msg("成功");
+            // }
+        });
+
+        function saveStatus(){
+            /!*结束时保存设备状态*!/
+            window.onbeforeunload=function(){//必须使用beforeunload
+                var url ="#(ctx)/logout/delete";
+                $.ajax({
+                    url:url,
+                    async:false,                //必须采用同步方法
+                    // success:function () {
+                    //     console.log("成功");
+                    // layer.msg("成功");
+                    // }
+                });
+            }
+        }
+        saveStatus();*/
+
+        $('.iframe_link').on('click',function () {
+            var url = $(this).attr('href');
+            $("#layadmin-iframe").attr('src', url);
+            return false;
+        })
+
+        //
+        // window.onload=function(){
+        //     $.ajax({
+        //         url:"#(ctx)/logout/reflash",
+        //         async:false,                //必须采用同步方法
+        //         // success:function () {
+        //         //     console.log("成功");
+        //         // layer.msg("成功");
+        //         // }
+        //     });
+        // }
+    });
+
+
+</script>
+</body>
+
+</html>

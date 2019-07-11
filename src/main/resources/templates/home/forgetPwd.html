@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <link th:href="@{/assets/css/amazeui.min.css}" rel="stylesheet" />
+    <link th:href="@{/css/dlstyle.css}" rel="stylesheet" type="text/css">
+    <script th:src="@{/assets/js/jquery.min.js}"></script>
+    <script th:src="@{/assets/js/amazeui.min.js}"></script>
+
+</head>
+
+<body>
+
+<div class="login-boxtitle">
+    <a href="index"><img th:src="@{/images/logobig.png}" /></a>
+</div>
+
+<div class="res-banner">
+    <div class="res-main">
+        <div class="login-banner-bg"><span></span><img th:src="@{/images/big.jpg}" /></div>
+        <div class="login-box">
+
+            <div class="am-tabs" id="doc-my-tabs">
+                <ul class="am-tabs-nav am-nav am-nav-tabs am-nav-justify">
+                    <li class="am-active">
+                        <a href="">邮箱注册</a>
+                    </li>
+                </ul>
+
+                <div class="am-tabs-bd">
+                    <div class="am-tab-panel am-active" >
+
+                        <form class="layui-form layui-form-pane">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">昵称：</label>
+                                <div class="layui-input-block">
+                                    <input id="username" type="email" name="custname" class="layui-input" lay-verify="required"
+                                    />
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">邮箱：</label>
+                                <div class="layui-input-block">
+                                    <input id="email" type="email" name="username" class="layui-input" lay-verify="email"
+                                    />
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">密码：</label>
+                                <div class="layui-input-block">
+                                    <input id="password" type="password" name="password" class="layui-input" lay-verify="required"/>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label  " style="padding:8px" >确认密码：</label>
+                                <div class="layui-input-block">
+                                    <input id="password2" type="password" name="password" class="layui-input" lay-verify="required"/>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">验证码：</label>
+                                <div class="layui-input-block">
+                                    <input id="checkCode" type="text" name="checkCode" class="layui-input" lay-verify="required"/>
+                                    <button id="sendCheckCode" type="button" class="layui-btn layui-btn-normal">获取验证码</button>
+                                </div>
+                            </div>
+                            <!--<div class="login-links">-->
+                            <!--<label for="reader-me">-->
+                            <!--<input id="reader-me" type="checkbox"> 点击表示您同意商城《服务协议》-->
+                            <!--</label>-->
+                            <!--</div>-->
+                            <div class="am-cf">
+                                <input  lay-submit lay-filter="register" value="注册" class="am-btn am-btn-primary am-btn-sm am-fl">
+                            </div>
+                        </form>
+                    </div>
+                    <script>
+                        $(function() {
+                            $('#doc-my-tabs').tabs();
+                        })
+                    </script>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="footer ">
+
+    </div>
+</div>
+<!--<script src="../../../layuiadmin/layui/layui.js"></script>-->
+<script th:src="@{/layuiadmin/layui/layui.all.js}"></script>
+<script>
+    ;!function(){
+        //无需再执行layui.use()方法加载模块，直接使用即可
+        var form = layui.form
+            ,layer = layui.layer;
+        var $ = layui.$
+            ,admin = layui.admin
+            ,element = layui.element
+            ,layer = layui.layer
+            ,laydate = layui.laydate
+            ,form = layui.form;
+        form.render();
+        laydate.render();
+        form.on("submit(register)",function (data) {
+            var inputCheckCode = $("#checkCode").val();
+            console.log(123)
+            console.log(data.field)
+            if (inputCheckCode == checkCode){
+                $.ajax({
+                    url:"/register1",
+                    type:"POST",
+                    data:data.field,
+                    async:false,
+                    success:function (text) {
+                        if ("ok" == text){
+                            layer.alert("注册成功",function () {
+                                document.location.href = "login";
+                            });
+                        }else{
+                            layer.alert("注册失败");
+                        }
+                    }
+                });
+            } else{
+                layer.msg("验证码输入错误");
+            }
+            return false;
+        });
+
+        //验证码
+        var checkCode = "";
+
+        $("#sendCheckCode").click(function () {
+            var email = $("#email").val();
+            if (email == null || email == ""){
+                layer.msg("请输入邮箱！！！");
+                return;
+            }
+            var index = layer.open({
+                type:3,
+                content:"邮件发送中..."
+            });
+
+            $.ajax({
+                url:"/getCheckCode?email="+email,
+                type:"post",
+                success:function (text) {
+                    if (text != null && text != ""){
+                        layer.close(index);
+                        layer.msg("已发送");
+                        checkCode = text;
+                        countDown();
+                    } else{
+                        layer.alert("获取失败，请重新获取")
+                    }
+                }
+            });
+        });
+
+        var maxTime = 60;
+        function countDown(){
+            if (maxTime == 0){
+                checkCode = "";
+                $("#sendCheckCode").removeClass("layui-btn-disabled");
+                $("#sendCheckCode").removeAttr("disabled")
+                $("#sendCheckCode").html("获取验证码");
+                maxTime = 60;
+            }else{
+                $("#sendCheckCode").attr("disabled","disabled");
+                $("#sendCheckCode").addClass("layui-btn-disabled");
+                form.render();
+                $("#sendCheckCode").html(maxTime+"秒后重新获取");
+                maxTime--;
+                setTimeout(countDown,1000);
+            }
+        }
+    }();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nyist.dao.CustomerMapper">
+    <resultMap id="BaseResultMap" type="com.nyist.entity.Customer">
+        <id column="cust_id" jdbcType="INTEGER" property="custId"/>
+        <result column="cust_code" jdbcType="CHAR" property="custCode"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="regis_date" jdbcType="TIMESTAMP" property="regisDate"/>
+        <result column="zip" jdbcType="CHAR" property="zip"/>
+        <result column="tel_no" jdbcType="CHAR" property="telNo"/>
+        <result column="sex" jdbcType="CHAR" property="sex"/>
+        <result column="cust_name" jdbcType="CHAR" property="custName"/>
+        <result column="cust_level" jdbcType="CHAR" property="custLevel"/>
+        <result column="cust_sco" jdbcType="INTEGER" property="custSco"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="createtime" jdbcType="TIMESTAMP" property="createtime"/>
+        <result column="extend3" jdbcType="VARCHAR" property="extend3"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    cust_id, cust_code, email, regis_date, zip, tel_no, sex, cust_name, cust_level, cust_sco,
+    username, createtime, extend3
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from customer
+        where cust_id = #{custId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from customer
+    where cust_id = #{custId,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.nyist.entity.Customer">
+    insert into customer (cust_id, cust_code, email,
+      regis_date, zip, tel_no,
+      sex, cust_name, cust_level, cust_sco,
+      username, createtime, extend3
+      )
+    values (#{custId,jdbcType=INTEGER}, #{custCode,jdbcType=CHAR}, #{email,jdbcType=VARCHAR},
+      #{regisDate,jdbcType=TIMESTAMP}, #{zip,jdbcType=CHAR}, #{telNo,jdbcType=CHAR},
+      #{sex,jdbcType=CHAR}, #{custName,jdbcType=CHAR}, #{custLevel,jdbcType=CHAR}, #{custSco,jdbcType=INTEGER},
+      #{username,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{extend3,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.nyist.entity.Customer">
+        insert into customer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="custId != null">
+                cust_id,
+            </if>
+            <if test="custCode != null">
+                cust_code,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="regisDate != null">
+                regis_date,
+            </if>
+            <if test="zip != null">
+                zip,
+            </if>
+            <if test="telNo != null">
+                tel_no,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="custName != null">
+                cust_name,
+            </if>
+            <if test="custLevel != null">
+                cust_level,
+            </if>
+            <if test="custSco != null">
+                cust_sco,
+            </if>
+            <if test="username != null">
+                username,
+            </if>
+            <if test="createtime != null">
+                createtime,
+            </if>
+            <if test="extend3 != null">
+                extend3,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="custId != null">
+                #{custId,jdbcType=INTEGER},
+            </if>
+            <if test="custCode != null">
+                #{custCode,jdbcType=CHAR},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="regisDate != null">
+                #{regisDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="zip != null">
+                #{zip,jdbcType=CHAR},
+            </if>
+            <if test="telNo != null">
+                #{telNo,jdbcType=CHAR},
+            </if>
+            <if test="sex != null">
+                #{sex,jdbcType=CHAR},
+            </if>
+            <if test="custName != null">
+                #{custName,jdbcType=CHAR},
+            </if>
+            <if test="custLevel != null">
+                #{custLevel,jdbcType=CHAR},
+            </if>
+            <if test="custSco != null">
+                #{custSco,jdbcType=INTEGER},
+            </if>
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="extend3 != null">
+                #{extend3,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.nyist.entity.Customer">
+        update customer
+        <set>
+            <if test="custCode != null">
+                cust_code = #{custCode,jdbcType=CHAR},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="regisDate != null">
+                regis_date = #{regisDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="zip != null">
+                zip = #{zip,jdbcType=CHAR},
+            </if>
+            <if test="telNo != null">
+                tel_no = #{telNo,jdbcType=CHAR},
+            </if>
+            <if test="sex != null">
+                sex = #{sex,jdbcType=CHAR},
+            </if>
+            <if test="custName != null">
+                cust_name = #{custName,jdbcType=CHAR},
+            </if>
+            <if test="custLevel != null">
+                cust_level = #{custLevel,jdbcType=CHAR},
+            </if>
+            <if test="custSco != null">
+                cust_sco = #{custSco,jdbcType=INTEGER},
+            </if>
+            <if test="username != null">
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                createtime = #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="extend3 != null">
+                extend3 = #{extend3,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where cust_id = #{custId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.nyist.entity.Customer">
+    update customer
+    set cust_code = #{custCode,jdbcType=CHAR},
+      email = #{email,jdbcType=VARCHAR},
+      regis_date = #{regisDate,jdbcType=TIMESTAMP},
+      zip = #{zip,jdbcType=CHAR},
+      tel_no = #{telNo,jdbcType=CHAR},
+      sex = #{sex,jdbcType=CHAR},
+      cust_name = #{custName,jdbcType=CHAR},
+      cust_level = #{custLevel,jdbcType=CHAR},
+      cust_sco = #{custSco,jdbcType=INTEGER},
+      username = #{username,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      extend3 = #{extend3,jdbcType=VARCHAR}
+    where cust_id = #{custId,jdbcType=INTEGER}
+  </update>
+
+    <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from customer
+        where cust_name = #{custName,jdbcType=CHAR}
+    </select>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from customer
+    </select>
+
+    <select id="findToday" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from customer
+        WHERE TO_DAYS(NOW( ))-TO_DAYS(createtime) =0
+    </select>
+
+    <select id="findWeek" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from customer
+        WHERE DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= date(createtime)
+    </select>
+
+    <select id="findYestoday" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from customer
+        WHERE TO_DAYS( NOW( )) - TO_DAYS(createtime) =1
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from customer
+    </select>
+
+</mapper>

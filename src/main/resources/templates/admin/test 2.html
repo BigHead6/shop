@@ -1,0 +1,274 @@
+<!--后台首页详情页面-->
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--静态路径-->
+    <!-- <link rel="stylesheet" type="text/css" href="../../static/layuiadmin/layui/css/layui.css" media="all">
+     <link rel="stylesheet" type="text/css" href="../../static/layuiadmin/style/admin.css" media="all">
+     <script type="text/javascript" src="../../static/layuiadmin/layui/layui.js"></script>-->
+    <link rel="stylesheet" type="text/css" th:href="@{/layuiadmin/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" type="text/css" th:href="@{/layuiadmin/style/admin.css}" media="all">
+    <script type="text/javascript" th:src="@{/layuiadmin/layui/layui.js}"></script>
+    <script type="text/javascript" th:src="@{/js/echarts.min.js}"></script>
+    <style>
+        .allView {
+            text-align: center;
+            font-size: 2em;
+            line-height: 160px;
+            color: #57a88b;
+
+            border-radius: 5px;
+        }
+
+        .distance {
+            border: 1px solid #e29f2a;
+            margin-top: 20px;
+            font-size: 1em;
+            text-align: center;
+            color: #070000;
+        }
+
+        .top {
+
+            margin-top: -5%;
+        }
+
+        .text {
+            background-color: rgb(255, 255, 251);
+        }
+
+        hr {
+            width: 80%;
+        }
+
+        .p_hr {
+            margin-top: 15px;
+        }
+
+        .right-text {
+            text-align: center;
+            margin-left: 20%;
+            color: red;
+        }
+
+        .inline {
+            display: inline;
+        }
+        .numStyle{
+            font-size: 2em;
+            color: #fdfffb;
+        }
+    </style>
+
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md3">
+            <div class="layui-card" style="background: #b4874f  ">  <!-- #60a8b4;   #b4874f   #7cb467;-->
+                <div class="layui-card-header">今日订单总数</div>
+                <div class="layui-card-body" style="height: 100px;overflow-y: auto">
+                    <div class="layui-col-md2">
+                        <span th:text="${OrderTodayNum}" class="numStyle"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md3">
+            <div class="layui-card" style="background: #60a8b4; ">
+                <div class="layui-card-header">今日销售总额</div>
+                <div class="layui-card-body" style="height: 100px;overflow-y: auto">
+                    <span th:text="${totalToday}" class="numStyle"></span>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md3">
+            <div class="layui-card" style="background: #7cb467; ">
+                <div class="layui-card-header">本周订单总数</div>
+                <div class="layui-card-body" style="height: 100px;overflow-y: auto">
+                    <span th:text="${OrderWeekNum}" class="numStyle"></span>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md3">
+            <div class="layui-card" style="background: #77b4a2;; ">
+                <div class="layui-card-header">本周销售总额</div>
+                <div class="layui-card-body" style="height: 100px;overflow-y: auto">
+                    <span th:text="${totalWeek}" class="numStyle"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md12">
+            <div class="layui-card layui-tab  " lay-filter="docDemoTabBrief">
+                <ul class="layui-tab-title">
+                    <li class="layui-this">总览</li>
+                    <!--<li>待处理事务</li>-->
+                </ul>
+                <div class="layui-tab-content ">
+                    <div class="layui-tab-item layui-show " style="height: 200px">
+                        <div class="layui-col-md6">
+                            <div class="distance layui-col-md3 "><p class="top"><span class=" text">已上架</span></p>
+                                <div class="allView" th:text="${Online}">123123</div>
+                            </div>
+                            <div class="distance layui-col-md3"><p class="top"><span class=" text">已下架</span></p>
+                                <div class="allView" th:text="${Offline}">123123</div>
+                            </div>
+                            <div class="distance layui-col-md3"><p class="top"><span class=" text">库存紧张</span></p>
+                                <div class="allView" th:text="${Storage}">123123</div>
+                            </div>
+                            <div class="distance layui-col-md3"><p class="top"><span class=" text">全部商品</span></p>
+                                <div class="allView" th:text="${ProductNum}">123123</div>
+                            </div>
+                        </div>
+                        <div class="layui-col-md6">
+                            <div class="distance layui-col-md3 "><p class="top"><span class=" text">今日新增</span></p>
+                                <div class="allView" th:text="${today}">123123</div>
+                            </div>
+                            <div class="distance layui-col-md3"><p class="top"><span class=" text">昨日新增</span></p>
+                                <div class="allView" th:text="${yestoday}">123123</div>
+                            </div>
+                            <div class="distance layui-col-md3"><p class="top"><span class=" text">本周新增</span></p>
+                                <div class="allView" th:text="${week}">123123</div>
+                            </div>
+                            <div class="distance layui-col-md3"><p class="top"><span class=" text">会员总数</span></p>
+                                <div class="allView" th:text="${all}">123123</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-tab-item " style="height: 200px">
+                        <div class="layui-col-md4">
+                            <p class="p_hr">
+                            <li class="layui-icon inline">&#xe66e; &nbsp;</li>
+                            待付款订单<p class="right-text">（123）</p></p>
+                            <hr>
+                            <p class="p_hr">
+                            <li class="layui-icon inline">&#xe66e; &nbsp;</li>
+                            代发货订单 <p class="right-text">（123）</p></p>
+                            <hr>
+                            <p class="p_hr">
+                            <li class="layui-icon inline">&#xe66e; &nbsp;</li>
+                            已发货订单<p class="right-text">（123）</p></p>
+                            <hr>
+                        </div>
+                        <div class="layui-col-md4">
+                            <p class="p_hr">
+                            <li class="layui-icon inline">&#xe66e; &nbsp;</li>
+                            已完成订单 <p class="right-text">（123）</p></p>
+                            <hr>
+                            <p class="p_hr">
+                            <li class="layui-icon inline">&#xe66e; &nbsp;</li>
+                            新缺货登记 <p class="right-text">（123）</p></p>
+                            <hr>
+                            <p class="p_hr">
+                            <li class="layui-icon inline">&#xe66e; &nbsp;</li>
+                            待处理退货订单<p class="right-text">（123）</p></p>
+                            <hr>
+                        </div>
+                        <div class="layui-col-md4">
+                            <p class="p_hr">
+                            <li class="layui-icon inline">&#xe66e; &nbsp;</li>
+                            待确认收货订单<p class="right-text">（123）</p></p>
+                            <hr>
+                            <p class="p_hr">
+                            <li class="layui-icon inline">&#xe66e; &nbsp;</li>
+                            待处理退款申请<p class="right-text">（123）</p></p>
+                            <hr>
+                            <p class="p_hr">
+                            <li class="layui-icon inline">&#xe66e; &nbsp;</li>
+                            广告位即将到期<p class="right-text">（123）</p></p>
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">订单统计</div>
+                <div class="layui-card-body" style=" height: 400px;margin-bottom: 20px">
+                    <div class="layui-row">
+                        <div class="layui-col-md2">销售情况对比</div>
+                        <div class="layui-col-md10">
+                            <div id="main" style="width: 800px;height:400px;"></div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<script>
+    layui.use(['element','jquery'], function () {
+        var element = layui.element
+            ,$=layui.$;
+
+        console.log('test2')
+        //…
+        var data =[];
+        $.ajax({
+            type:'post',
+            url:'getSale',
+            dataType:'json',
+            success:function(res){
+                data.push(res[0]);
+                data.push(res[1]);
+                // 基于准备好的dom，初始化echarts实例
+                var myChart = echarts.init(document.getElementById('main'));
+                // 指定图表的配置项和数据
+                var option = {
+                    title: {
+                        text: '七日内销售情况对比'
+                    },
+                    xAxis: {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                    },
+                    tooltip : {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'cross',
+                            label: {
+                                backgroundColor: '#6a7985'
+                            }
+                        }
+                    },
+                    legend: {
+                        data:['上上周销售情况','上周销售情况']
+                    },
+
+                    yAxis: {
+                        type: 'value'
+                    },
+                    series: [{
+                        name: '上上周销售情况',
+                        data: data[1],
+                        type: 'line',
+                        areaStyle: {}
+                    },{
+                        name: '上周销售情况',
+                        data: data[0],
+                        type: 'line',
+                        areaStyle: {}
+                    }]
+                };
+
+                // 使用刚指定的配置项和数据显示图表。
+                myChart.setOption(option);
+            }
+        })
+
+
+
+
+    });
+</script>
+</body>
+</html>

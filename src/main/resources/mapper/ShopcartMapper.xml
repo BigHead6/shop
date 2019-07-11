@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nyist.dao.ShopcartMapper">
+  <resultMap id="BaseResultMap" type="com.nyist.entity.Shopcart">
+    <id column="shop_no" jdbcType="INTEGER" property="shopNo" />
+    <result column="cust_id" jdbcType="INTEGER" property="custId" />
+    <result column="prod_id" jdbcType="INTEGER" property="prodId" />
+    <result column="unit_price" jdbcType="DECIMAL" property="unitPrice" />
+    <result column="dis_price" jdbcType="DECIMAL" property="disPrice" />
+    <result column="qty" jdbcType="INTEGER" property="qty" />
+    <result column="buy" jdbcType="CHAR" property="buy" />
+    <result column="pro_totamt" jdbcType="DECIMAL" property="proTotamt" />
+    <result column="flag" jdbcType="VARCHAR" property="flag" />
+    <result column="image" jdbcType="VARCHAR" property="image" />
+    <result column="extend3" jdbcType="VARCHAR" property="extend3" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    shop_no, cust_id, prod_id, unit_price, dis_price, qty, buy, pro_totamt, flag, image, 
+    extend3
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from shopcart
+    where shop_no = #{shopNo,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from shopcart
+    where shop_no = #{shopNo,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.nyist.entity.Shopcart">
+    insert into shopcart (shop_no, cust_id, prod_id, 
+      unit_price, dis_price, qty, 
+      buy, pro_totamt, flag, 
+      image, extend3)
+    values (#{shopNo,jdbcType=INTEGER}, #{custId,jdbcType=INTEGER}, #{prodId,jdbcType=INTEGER}, 
+      #{unitPrice,jdbcType=DECIMAL}, #{disPrice,jdbcType=DECIMAL}, #{qty,jdbcType=INTEGER}, 
+      #{buy,jdbcType=CHAR}, #{proTotamt,jdbcType=DECIMAL}, #{flag,jdbcType=VARCHAR}, 
+      #{image,jdbcType=VARCHAR}, #{extend3,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nyist.entity.Shopcart">
+    insert into shopcart
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="shopNo != null">
+        shop_no,
+      </if>
+      <if test="custId != null">
+        cust_id,
+      </if>
+      <if test="prodId != null">
+        prod_id,
+      </if>
+      <if test="unitPrice != null">
+        unit_price,
+      </if>
+      <if test="disPrice != null">
+        dis_price,
+      </if>
+      <if test="qty != null">
+        qty,
+      </if>
+      <if test="buy != null">
+        buy,
+      </if>
+      <if test="proTotamt != null">
+        pro_totamt,
+      </if>
+      <if test="flag != null">
+        flag,
+      </if>
+      <if test="image != null">
+        image,
+      </if>
+      <if test="extend3 != null">
+        extend3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="shopNo != null">
+        #{shopNo,jdbcType=INTEGER},
+      </if>
+      <if test="custId != null">
+        #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="prodId != null">
+        #{prodId,jdbcType=INTEGER},
+      </if>
+      <if test="unitPrice != null">
+        #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="disPrice != null">
+        #{disPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="qty != null">
+        #{qty,jdbcType=INTEGER},
+      </if>
+      <if test="buy != null">
+        #{buy,jdbcType=CHAR},
+      </if>
+      <if test="proTotamt != null">
+        #{proTotamt,jdbcType=DECIMAL},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null">
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="extend3 != null">
+        #{extend3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateById" parameterType="java.lang.Integer">
+    update shopcart
+    <set>
+        flag = 0
+    </set>
+    where shop_no = #{shopNo,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nyist.entity.Shopcart">
+    update shopcart
+    set cust_id = #{custId,jdbcType=INTEGER},
+      prod_id = #{prodId,jdbcType=INTEGER},
+      unit_price = #{unitPrice,jdbcType=DECIMAL},
+      dis_price = #{disPrice,jdbcType=DECIMAL},
+      qty = #{qty,jdbcType=INTEGER},
+      buy = #{buy,jdbcType=CHAR},
+      pro_totamt = #{proTotamt,jdbcType=DECIMAL},
+      flag = #{flag,jdbcType=VARCHAR},
+      image = #{image,jdbcType=VARCHAR},
+      extend3 = #{extend3,jdbcType=VARCHAR}
+    where shop_no = #{shopNo,jdbcType=INTEGER}
+  </update>
+  <select id="selectByCustId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from shopcart
+    where cust_id = #{custId,jdbcType=INTEGER}
+    and  buy = 0
+    and  flag=1
+  </select>
+  <update id="updateByShopId" parameterType="java.lang.Integer">
+    update shopcart
+    <set>
+      buy = 1
+    </set>
+    where shop_no = #{shopNo,jdbcType=INTEGER}
+  </update>
+</mapper>

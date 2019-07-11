@@ -1,0 +1,238 @@
+<!--商品分类页面-->
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head >
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--静态路径-->
+    <!-- <link rel="stylesheet" type="text/css" href="../../static/layuiadmin/layui/css/layui.css" media="all">
+     <link rel="stylesheet" type="text/css" href="../../static/layuiadmin/style/admin.css" media="all">
+     <script type="text/javascript" src="../../static/layuiadmin/layui/layui.js"></script>-->
+    <link rel="stylesheet" type="text/css"th:href="@{/layuiadmin/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" type="text/css" th:href="@{/layuiadmin/style/admin.css}" media="all">
+    <script type="text/javascript" th:src="@{/layuiadmin/layui/layui.js}"></script>
+    <style>
+        .allView{
+            text-align: center;
+            font-size: 2em;
+            line-height: 160px;
+            color: #57a88b;
+
+            border-radius: 5px;
+        }
+        .distance{
+            border: 1px solid #e29f2a;
+            margin-top: 20px;
+            font-size: 1em;
+            text-align: center;
+            color: #070000;
+        }
+        .top{
+
+            margin-top: -5%;
+        }
+        .text{
+            background-color: rgb(255, 255, 251);
+        }
+        hr{
+            width: 80%;
+        }
+        .p_hr{
+            margin-top: 15px;
+        }
+        .right-text{
+            text-align: center;
+            margin-left: 20%;
+            color: red;
+        }
+
+    </style>
+
+</head>
+<body>
+<div class="layui-fluid">
+
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+
+                <div class="layui-card-header"> 分类列表</div>
+                <div class="layui-card-body">
+                    <div class=" layui-row-md12">
+                        <button class="layui-btn addKind" style="margin-bottom: 10px;">添加分类</button>
+                    </div>
+                    <div class=" layui-row-md6">
+                        <table class="layui-hide" id="demo" lay-filter="demo"></table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/html" id="barDemo">
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </script>
+</div>
+<!--//编辑弹框-->
+<div style="display: none;" id="dome">
+    <form  class="layui-form" lay-filter="form1" id="form1" action="">
+
+        <div class="layui-form-item" style="margin-top: 20px;">
+            <label class="layui-form-label">商品分类</label>
+            <div class="layui-col-md7 layui-col-sm7">
+                <input type="text" name="name" lay-verify="required" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-col-md-offset1">
+            <div class="layui-input-block layui-btn-group ">
+                <button class="layui-btn" lay-submit lay-filter="form1">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    layui.use(['element','table','jquery','form'] ,function(){
+        var element = layui.element,
+            table = layui.table,
+            form = layui.form,
+            $= layui.$
+        ;
+        table.render({
+            elem: '#demo'
+            //,skin: 'line' //表格风格
+            ,even: true
+            ,page: true //是否显示分页
+            ,limits: [2, 7, 10]
+            ,limit: 10 //每页默认显示的数量
+            ,url:'getKindAll'
+            ,id: 'testReload'
+            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            ,cols: [
+                [
+                    {type:'checkbox'},
+                    {field:'kindNo', width:'10%', title: '类别编号', },
+                    {field:'kindName', width:'10%', title: '类别名称', },
+                    { field: 'right',title: '操作',toolbar: "#barDemo",fixed: 'right'
+                    }
+                ]
+            ]
+            , response: {
+                statusName: 'code',
+                statusCode: '1',
+                msgName: 'msg',
+                countName: 'total',
+                dataName: 'data'
+            },  request: {
+                pageName: 'currentPage', // 当前页
+                limitName: 'pageSize' // 每页面显示多少条
+            },
+        });
+
+        table.on('tool(demo)', function(obj) {
+            var data = obj.data
+            if (obj.event ==='edit'){
+                $('input[name="name"]').val(data.kindName)
+                form.render();
+                console.log(data)
+                layer.open({
+                    title:'修改分类信息',
+                    type: 1,
+                    area:['400px','200px'],
+                    content:$('#dome')
+                })
+                //监听编辑与添加的表单提交
+                form.on('submit(form1)',function (value) {
+                    var data2 = value.field
+                    data2.kindNo = data.kindNo
+                    console.log(data2)
+                    $.ajax({
+                        type:"post",
+                        url:'editKind',
+                        async:false,
+                        data:data2,
+                        //dataType:'json',
+                       // contentType:'application/json',
+                        success:function (res) {
+                            if (res.code==1 ){
+                                layer.msg(res.msg,{
+                                    icon:6
+                                },function () {
+                                    window.location.reload()
+                                })
+                            }else {
+                                layer.msg(res.msg,{
+                                    icon:5
+                                })
+                            }
+                        }
+                    })
+                    return false;
+                })
+            }else if(obj.event==='del'){ //删除
+                layer.confirm('确认删除',function(){
+                    $.ajax({
+                        type:"post",
+                        url:'delKind',
+                        data:{kindNo:data.kindNo},
+                        //dataType:'json',
+                        success:function (res) {
+                            if (res.code == 1){
+                                layer.msg(res.msg,{icon:6},function () {
+                                    window.location.reload()
+                                })
+                            } else{
+                                layer.msg(res.msg,{icon:5})
+                            }
+                        }
+                    })
+                })
+
+            }
+        })
+        //…
+        $('.addKind').on('click',function () {
+            $('#dome input').val('')
+           layer.open({
+               title:'添加分类',
+                type: 1,
+                area:['400px','200px'],
+                content:$('#dome')
+        })
+            //监听编辑与添加的表单提交
+            form.on('submit(form1)',function (obj) {
+                var data = obj.field
+                console.log(data)
+                $.ajax({
+                    type:"post",
+                    url:'addKind',
+                    async:false,
+                    data:data,
+                  //  dataType:'json',
+                    //contentType:'application/json',
+                    success:function (res) {
+                        if (res.code==1 ){
+                            layer.msg(res.msg,{
+                                icon:6
+                            },function () {
+                                window.location.reload()
+                            })
+                        }else {
+                            layer.msg(res.msg,{
+                                icon:5
+                            })
+                        }
+                    }
+                })
+                return false;
+            })
+        })
+
+
+
+    });
+</script>
+</body>
+</html>

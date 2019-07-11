@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nyist.dao.WarehouseMapper">
+    <resultMap id="BaseResultMap" type="com.nyist.entity.Warehouse">
+        <id column="wh_no" jdbcType="INTEGER" property="whNo"/>
+        <result column="wh_name" jdbcType="CHAR" property="whName"/>
+        <result column="flag" jdbcType="VARCHAR" property="flag" />
+    </resultMap>
+    <sql id="Base_Column_List">
+    wh_no, wh_name, flag
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse
+        where wh_no = #{whNo,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from warehouse
+    where wh_no = #{whNo,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.nyist.entity.Warehouse">
+    insert into warehouse (wh_no, wh_name)
+    values (#{whNo,jdbcType=INTEGER}, #{whName,jdbcType=CHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.nyist.entity.Warehouse">
+        insert into warehouse
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="whNo != null">
+                wh_no,
+            </if>
+            <if test="whName != null">
+                wh_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="whNo != null">
+                #{whNo,jdbcType=INTEGER},
+            </if>
+            <if test="whName != null">
+                #{whName,jdbcType=CHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.nyist.entity.Warehouse">
+        update warehouse
+        <set>
+            <if test="whName != null">
+                wh_name = #{whName,jdbcType=CHAR},
+            </if>
+            <if test="flag != null">
+                flag = #{flag,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where wh_no = #{whNo,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.nyist.entity.Warehouse">
+    update warehouse
+    set wh_name = #{whName,jdbcType=CHAR}
+    where wh_no = #{whNo,jdbcType=INTEGER}
+  </update>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse
+        where flag=1
+    </select>
+
+    <select id="selectByName" parameterType="string" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse
+        where  wh_name = #{whName,jdbcType=CHAR}
+    </select>
+</mapper>

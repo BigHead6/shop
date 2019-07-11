@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
+
+		<title>个人中心</title>
+		<!--引入·外部文件-->
+		<div th:include="public/pagehead::head"></div>
+
+		<link th:href="@{/css/systyle.css}" rel="stylesheet" type="text/css">
+		<style>
+			.right{
+				position: absolute;
+				left: 90%;
+				color:red;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<!--头 -->
+		<header>
+			<article>
+				<div class="mt-logo">
+					<!--顶部导航条 -->
+					<div th:include="public/pagehead::common"></div>
+
+					<!--悬浮搜索框-->
+					<div th:include="public/pagehead::search"></div>
+
+						<div class="clear"></div>
+
+				</div>
+			</article>
+		</header>
+            <div class="nav-table">
+				<!--全部分类-->
+				<div th:include="public/pagehead::category"></div>
+			</div>
+			<b class="line"></b>
+		<div class="center">
+			<div class="col-main">
+				<div class="main-wrap">
+					<div class="wrap-left">
+						<div class="wrap-list">
+							<div class="m-user">
+								<!--个人信息 -->
+								<div class="m-bg"></div>
+								<div class="m-userinfo">
+									<div class="m-baseinfo">
+										<a href="information">
+											<img src="../images/getAvatar.do.jpg">
+										</a>
+										<em class="s-name" th:text="${session.customer.getUsername()}">(小叮当)<span class="vip1"></span></em>
+										<div class="s-prestige am-btn am-round">
+											</span>会员福利</div>
+									</div>
+								</div>
+
+								<!--个人资产-->
+							</div>
+							<div class="box-container-bottom"></div>
+
+							<!--订单 -->
+							<div class="m-order">
+								<div class="s-bar">
+									<i class="s-icon"></i>我的订单
+									<a class="i-load-more-item-shadow" href="order">全部订单</a>
+								</div>
+								<ul>
+									<li><a href="order"><i><img src="../images/pay.png"/></i><span>待付款<em class="m-num" th:text="${nopay}">1</em> </span></a></li>
+									<li><a href="order"><i><img src="../images/send.png"/></i><span>待发货<em class="m-num" th:text="${waitnum}">1</em></span></a></li>
+									<li><a href="order"><i><img src="../images/receive.png"/></i><span>待收货 <em class="m-num"  th:text="${waitsend}" >1</em></span></a></li>
+									<li><a href="order"><i><img src="../images/comment.png"/></i><span>待评价<em class="m-num">3</em></span></a></li>
+									<li><a href="change"><i><img src="../images/refund.png"/></i><span>退换货 <em class="m-num">1</em></span></a></li>
+								</ul>
+							</div>
+							<!--九宫格-->
+							<div class="user-patternIcon">
+								<div class="s-bar">
+									<i class="s-icon"></i>我的常用
+								</div>
+								<ul>
+
+									<a href="../home/shopcart"><li class="am-u-sm-4"><i class="am-icon-shopping-basket am-icon-md"></i><img src="../images/iconbig.png"/><p>购物车</p></li></a>
+									<a href="collection"><li class="am-u-sm-4"><i class="am-icon-heart am-icon-md"></i><img src="../images/iconsmall1.png"/><p>我的收藏</p></li></a>
+									<a href="../home/home"><li class="am-u-sm-4"><i class="am-icon-gift am-icon-md"></i><img src="../images/iconsmall0.png"/><p>为你推荐</p></li></a>
+									<a href="comment"><li class="am-u-sm-4"><i class="am-icon-pencil am-icon-md"></i><img src="../images/iconsmall3.png"/><p>好评宝贝</p></li></a>
+									<a href="foot"><li class="am-u-sm-4"><i class="am-icon-clock-o am-icon-md"></i><img src="../images/iconsmall2.png"/><p>我的足迹</p></li></a>
+								</ul>
+							</div>
+							<!--收藏夹 -->
+							<div class="you-like">
+								<div class="s-bar">我的收藏
+								</div>
+								<div class="s-content">
+									<div class="s-item-wrap" th:each="product: ${productList}">
+										<div class="s-item">
+
+											<div class="s-pic">
+												<a th:href="@{introduction?id=}+${product.getId()}" class="s-pic-link">
+													<img th:src="${product.getImage()}"   style="height:151px;"/>
+												</a>
+											</div>
+											<div class="s-price-box">
+												<span class="s-price"><em class="s-price-sign">¥</em><em class="s-value" th:text="${product.getUnitPrice()}">42.50</em></span>
+												<span class="s-history-price"><em class="s-price-sign">¥</em><em class="s-value" th:text="${product.getUnitPrice()}">68.00</em></span>
+
+											</div>
+											<div class="s-title"><a href="#" th:text="${product.getProdDesc()}">包邮s925纯银项链女吊坠短款锁骨链颈链日韩猫咪银饰简约夏配饰</a>
+												<span class="right" th:name="${product.getId()}">X</span></div>
+											<div class="s-extra-box">
+												<span class="s-comment">好评: 98.03%</span>
+												<span class="s-sales">月销: 219</span>
+
+											</div>
+										</div>
+									</div>
+
+								</div>
+
+								<div class="s-more-btn i-load-more-item" data-screen="0"><i class="am-icon-refresh am-icon-fw"></i>更多</div>
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+				<!-- introduce-->
+				<div th:include="public/pagehead::footer"></div>
+
+			</div>
+
+			<aside th:include="public/pagehead::person" class="menu">
+				<!--<ul>
+					<li class="person active">
+						<a href="#">个人中心</a>
+					</li>
+					<li class="person">
+						<a href="#">个人资料</a>
+						<ul>
+							<li> <a href="information">个人信息</a></li>
+							<li> <a href="safety">安全设置</a></li>
+							<li> <a href="address">收货地址</a></li>
+						</ul>
+					</li>
+					<li class="person">
+						<a href="#">我的交易</a>
+						<ul>
+							<li><a href="order">订单管理</a></li>
+							<li> <a href="change">退款售后</a></li>
+							<li > <a href="bill">账单明细</a></li>
+						</ul>
+					</li>
+
+				</ul>-->
+
+			</aside>
+			<!--<div th:include="public/pagehead::common"></div>-->
+		</div>
+		<script th:src="@{/layuiadmin/layui/layui.all.js}">  </script>
+		<script>
+            ;!function() {
+                //无需再执行layui.use()方法加载模块，直接使用即可
+                var form = layui.form
+                    , layer = layui.layer;
+                var $ = layui.$
+                    , admin = layui.admin
+                    , element = layui.element
+                    , layer = layui.layer
+                    , laydate = layui.laydate
+                    , form = layui.form;
+                form.render();
+                laydate.render();
+
+                $('.right').on('click', function () {
+                    var id = $(this).attr('name')
+					layer.confirm('确定删除',function () {
+						$.ajax({
+							type:'post',
+							url:'delCollect',
+							data:{id:id},
+							dataType:'json',
+							//contentType:'application/json',
+							success:function (res) {
+							    if (res.code==1){
+                                    layer.msg(res.msg,{
+                                        icon:6
+                                    },function () {
+                                        window.location.reload()
+                                    })
+								}else{
+                                    layer.msg(res.msg,{
+                                        icon:5
+                                    })
+								}
+
+                            }
+						})
+
+                    })
+                })
+            }();
+		</script>
+	</body>
+
+</html>

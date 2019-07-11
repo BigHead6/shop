@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
+
+    <title>退换货管理</title>
+    <!--引入·外部文件-->
+    <div th:include="public/pagehead::head"></div>
+    <link th:href="@{/css/orstyle.css}" rel="stylesheet" type="text/css">
+
+
+</head>
+
+<body>
+<!--头 -->
+<header>
+    <article>
+        <div class="mt-logo">
+            <!--顶部导航条 -->
+            <div th:include="public/pagehead::common"></div>
+
+            <!--悬浮搜索框-->
+            <div th:include="public/pagehead::search"></div>
+
+            <div class="clear"></div>
+
+        </div>
+    </article>
+</header>
+<div class="nav-table">
+    <!--全部分类-->
+    <div th:include="public/pagehead::category"></div>
+</div>
+<b class="line"></b>
+<div class="center">
+    <div class="col-main">
+        <div class="main-wrap">
+
+            <div class="user-order">
+
+                <!--标题 -->
+                <div class="am-cf am-padding">
+                    <div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">退换货管理</strong> /
+                        <small>Change</small>
+                    </div>
+                </div>
+                <hr/>
+
+                <div class="am-tabs am-tabs-d2 am-margin" data-am-tabs>
+
+                    <ul class="am-avg-sm-2 am-tabs-nav am-nav am-nav-tabs">
+                        <li class="am-active"><a href="#tab1">退款管理</a></li>
+
+
+                    </ul>
+
+                    <div class="am-tabs-bd">
+                        <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+                            <div class="order-top">
+                                <div class="th th-item">
+                                    <td class="td-inner">商品</td>
+                                </div>
+                                <div class="th th-orderprice th-price">
+                                    <td class="td-inner">交易金额</td>
+                                </div>
+                                <div class="th th-changeprice th-price">
+                                    <td class="td-inner">退款金额</td>
+                                </div>
+                                <div class="th th-status th-moneystatus">
+                                    <td class="td-inner">交易状态</td>
+                                </div>
+                                <div class="th th-change th-changebuttom">
+                                    <td class="td-inner">交易操作</td>
+                                </div>
+                            </div>
+
+                            <div class="order-main">
+
+                                <div class="order-list">
+
+                                    <!--交易成功-->
+                                    <div class="order-status5" th:each="sales: ${salesList1}">
+                                        <div class="order-title">
+                                            <div class="dd-num">退款编号：<a href="javascript:;"
+                                                                        th:text="${sales.getChanNo()}">1601430</a>
+                                            </div>
+                                            <span>退款申请时间：</span> <span
+                                                th:text="${sales.getDelivDate()}"> 2015-12-20</span>
+                                            <!--    <em>店铺：小桔灯</em>-->
+                                        </div>
+                                        <div class="order-content">
+                                            <div class="order-left" th:each="salesItem1: ${salesItemList}"  style="display: none">
+                                                <div th:each="salesItem: ${salesItem1}">
+                                                    <ul class="item-list" th:if="${salesItem.getInvoiceNo()}==${sales.getOrderNo()}" >
+                                                        <li class="td td-item">
+                                                            <div class="item-pic">
+                                                                <a href="#" class="J_MakePoint">
+                                                                    <img th:src="${salesItem.getExtend2()}"
+                                                                         class="itempic J_ItemImg">
+                                                                </a>
+                                                            </div>
+                                                            <div class="item-info">
+                                                                <div class="item-basic-info">
+                                                                    <a href="#">
+                                                                        <br/>
+                                                                        <p th:text="${salesItem.getExtend3()}">美康粉黛醉美唇膏 持久保湿滋润防水不掉色</p>
+
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <li class="td td-price">
+                                                            <div class="item-price">
+                                                                <br/>
+                                                                <span th:text="${salesItem.getDisPrice()}">333.00</span>
+                                                            </div>
+                                                        </li>
+                                                        <li class="td td-price">
+                                                            <div class="item-number">
+                                                                <br/>
+                                                                <span
+                                                                    th:text="${salesItem.getDisPrice()}">2</span>
+                                                            </div>
+                                                        </li>
+                                                        <li class="td td-operation">
+                                                            <div class="item-operation">
+
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                    <ul class="item-list" th:if="${salesItem.getInvoiceNo()}!=${sales.getOrderNo()}"  style="display: none">
+                                                        <li class="td td-item">
+                                                            <div class="item-pic">
+                                                                <a href="#" class="J_MakePoint">
+                                                                    <img src="../images/kouhong.jpg_80x80.jpg"
+                                                                         class="itempic J_ItemImg">
+                                                                </a>
+                                                            </div>
+                                                            <div class="item-info">
+                                                                <div class="item-basic-info">
+                                                                    <a href="#">
+                                                                        <br/>
+                                                                        <p>美康粉黛醉美唇膏 持久保湿滋润防水不掉色</p>
+
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <li class="td td-price">
+                                                            <div class="item-price">
+                                                                <br/>
+                                                                <span th:text="${salesItem.getUnitPrice()}">333.00</span>
+                                                            </div>
+                                                        </li>
+                                                        <li class="td td-number">
+                                                            <div class="item-number">
+                                                                <br/>
+                                                                <span>×</span><span
+                                                                    th:text="${salesItem.getQty()}">2</span>
+                                                            </div>
+                                                        </li>
+                                                        <li class="td td-operation">
+                                                            <div class="item-operation">
+
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="order-right">
+
+                                                <div class="move-right">
+                                                    <li class="td td-amount  ">
+                                                        <div class="item-amount" th:if="${sales.getStatus()}==0">
+                                                            退款申请中
+                                                        </div>
+                                                        <div class="item-amount" th:if="${sales.getStatus()}==1">
+                                                            已退款
+                                                        </div>
+                                                        <div class="item-amount" th:if="${sales.getStatus()}==2">
+                                                            退款失败
+                                                        </div>
+                                                    </li>
+                                                    <li class="td td-change">
+                                                        <div class="am-btn am-btn-danger anniu  delete" th:name="${sales.getOrderNo()}">
+                                                            取消退款
+                                                        </div>
+                                                    </li>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <!--底部-->
+        <div th:include="public/pagehead::footer"></div>
+    </div>
+
+    <aside th:include="public/pagehead::person" class="menu">
+      <!--  <ul>
+            <li class="person">
+                <a href="index2">个人中心</a>
+            </li>
+            <li class="person">
+                <a href="#">个人资料</a>
+                <ul>
+                    <li><a href="information">个人信息</a></li>
+                    <li><a href="safety">安全设置</a></li>
+                    <li><a href="address">收货地址</a></li>
+                </ul>
+            </li>
+            <li class="person">
+                <a href="#">我的交易</a>
+                <ul>
+                    <li><a href="order">订单管理</a></li>
+                    <li class="active"><a href="change">退款售后</a></li>
+                    <li><a href="bill">账单明细</a></li>
+                </ul>
+            </li>
+
+        </ul>-->
+
+    </aside>
+</div>
+
+<script>
+    //必要的让页面正常显示
+   // for(var k=0;k<=5;k++){
+        for (var i=0;i<$('.order-status5').length;i++){
+            var tool = $($($('.order-status5')[i]).find('.order-left')[i])
+            for (var j=0;j<$($('.order-status5')[i]).find('.order-left').length;j++){
+                if(i==j){
+                    tool.css('display','block')
+                }
+            }
+        }
+    //}
+</script>
+</body>
+
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
+
+    <title>个人资料</title>
+
+    <!--引入·外部文件-->
+    <div th:include="public/pagehead::head"></div>
+    <link th:href="@{/css/infstyle.css}" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+<!--头 -->
+<header>
+    <article>
+        <div class="mt-logo">
+            <!--顶部导航条 -->
+            <div th:include="public/pagehead::common"></div>
+
+            <!--悬浮搜索框-->
+            <div th:include="public/pagehead::search"></div>
+
+            <div class="clear"></div>
+        </div>
+        </div>
+    </article>
+</header>
+<div class="nav-table">
+    <!--全部分类-->
+    <div th:include="public/pagehead::category"></div>
+</div>
+<b class="line"></b>
+<div class="center">
+    <div class="col-main">
+        <div class="main-wrap">
+
+            <div class="user-info">
+                <!--标题 -->
+                <div class="am-cf am-padding">
+                    <div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">个人资料</strong> /
+                        <small>Personal&nbsp;information</small>
+                    </div>
+                </div>
+                <hr/>
+
+                <!--头像 -->
+                <div class="user-infoPic">
+
+                    <div class="filePic">
+                        <input type="file" class="inputPic" allowexts="gif,jpeg,jpg,png,bmp" accept="image/*">
+                        <img class="am-circle am-img-thumbnail" src="../images/getAvatar.do.jpg" alt=""/>
+                    </div>
+
+                    <p class="am-form-help">头像</p>
+
+                    <div class="info-m">
+                        <div><b>用户名：<i th:text="${customer.getUsername()}">小叮当</i></b></div>
+                        <div class="u-level">
+									<span class="rank r2">
+							             <s class="vip1"></s><a class="classes" href="#">铜牌会员</a>
+						            </span>
+                        </div>
+                        <div class="u-safety">
+                            <a href="safety.html">
+                                账户安全
+                                <span class="u-profile"><i class="bc_ee0000" style="width: 60px;"
+                                                           width="0">60分</i></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!--个人信息 -->
+                <div class="info-main">
+                    <form class="am-form am-form-horizontal">
+
+                        <div class="am-form-group">
+                            <label for="user-name1" class="am-form-label">昵称</label>
+                            <div class="am-form-content">
+                                <input type="text" id="user-name1" placeholder="nickname"
+                                       th:value="${customer.getUsername()}">
+
+                            </div>
+                        </div>
+
+                        <div class="am-form-group">
+                            <label class="am-form-label">性别</label>
+                            <div class="am-form-content sex">
+                                <label class="am-radio-inline">
+                                    <input type="radio" name="radio10" value="1" data-am-ucheck
+                                           th:if="${customer.getSex()}==1" checked> 男
+                                    <input type="radio" name="radio10" value="1" data-am-ucheck>
+                                </label>
+                                <label class="am-radio-inline">
+                                    <input type="radio" name="radio10" value="2" data-am-ucheck
+                                           th:if="${customer.getSex()}==2" checked> 女
+                                    <input type="radio" name="radio10" value="2" data-am-ucheck>
+                                </label>
+                                <label class="am-radio-inline">
+                                    <input type="radio" name="radio10" value="3" data-am-ucheck
+                                           th:if="${customer.getSex()}==3" checked> 保密
+                                    <input type="radio" name="radio10" value="3" data-am-ucheck>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="am-form-group">
+                            <label for="user-name2" class="am-form-label">邮编</label>
+                            <div class="am-form-content">
+                                <input type="text" id="user-name2" placeholder="name" th:value="${customer.getZip()}">
+
+                            </div>
+                        </div>
+
+                        <div class="am-form-group">
+                            <label for="user-phone" class="am-form-label">电话</label>
+                            <div class="am-form-content">
+                                <input id="user-phone" placeholder="telephonenumber" type="tel"
+                                       th:value="${customer.getTelNo()}">
+
+                            </div>
+                        </div>
+                        <div class="am-form-group">
+                            <label for="user-email" class="am-form-label">电子邮件</label>
+                            <div class="am-form-content">
+                                <input id="user-email" placeholder="Email" type="email"
+                                       th:value="${customer.getEmail()}">
+
+                            </div>
+                        </div>
+
+                        <div class="info-btn">
+                            <div class="am-btn am-btn-danger save">保存修改</div>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+        <!--底部-->
+
+        <!-- introduce-->
+        <div th:include="public/pagehead::footer"></div>
+    </div>
+
+    <aside th:include="public/pagehead::person" class="menu">
+        <!--	<ul>
+                <li class="person">
+                    <a href="index2">个人中心</a>
+                </li>
+                <li class="person">
+                    <a href="#">个人资料</a>
+                    <ul>
+                        <li> <a href="information">个人信息</a></li>
+                        <li> <a href="safety">安全设置</a></li>
+                        <li> <a href="address">收货地址</a></li>
+                    </ul>
+                </li>
+                <li class="person">
+                    <a href="#">我的交易</a>
+                    <ul>
+                        <li><a href="order">订单管理</a></li>
+                        <li> <a href="change">退款售后</a></li>
+                        <li > <a href="bill">账单明细</a></li>
+                    </ul>
+                </li>
+
+            </ul>-->
+
+    </aside>
+</div>
+<script th:src="@{/layuiadmin/layui/layui.all.js}"></script>
+<script>
+    ;!function () {
+        //无需再执行layui.use()方法加载模块，直接使用即可
+        var form = layui.form
+            , layer = layui.layer;
+        var $ = layui.$
+            , admin = layui.admin
+            , element = layui.element
+            , layer = layui.layer
+            , laydate = layui.laydate
+            , form = layui.form;
+        form.render();
+        laydate.render();
+
+        $('.save').on('click', function () {
+            var email = $('#user-email').val();
+            var name = $('#user-name').val();
+            var yb = $('#user-name2').val();
+            var tel = $('#user-phone').val();
+            var sex = $('input[type="radio"]:checked').val();
+            console.log(sex)
+            if (email == '' || name == '' || yb == '' || tel == '' || sex == '') {
+                layer.msg('请补全信息', {icon: 5})
+            } else {
+                $.ajax({
+                    type: 'post',
+                    url: 'updateinfo',
+                    data: JSON.stringify({
+                        custName: name,
+                        sex: sex,
+                        zip: yb,
+                        telNo: tel,
+                        email: email
+                    }),
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    async: false,
+                    //contentType:'application/json',
+                    success: function (res) {
+                        if (res.code == 1) {
+                            layer.msg(res.msg, {
+                                icon: 6
+                            }, function () {
+                                window.location.reload()
+                            })
+                        } else {
+                            layer.msg(res.msg, {
+                                icon: 5
+                            })
+                        }
+
+                    }
+                })
+            }
+
+        })
+    }();
+</script>
+
+</body>
+
+</html>
